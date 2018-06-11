@@ -1,0 +1,5 @@
+[build]
+  Functions = "functions-build"
+
+[template.environment]
+  FAUNADB_SECRET = "Your FaunaDB Server Secret"
