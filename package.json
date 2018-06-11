@@ -11,7 +11,7 @@
   "scripts": {
     "start": "react-scripts start",
     "bootstrap": "node ./init-faunadb.js",
-    "buildFunctions": "netlify-lambda build functions",
+    "buildFunctions": "netlify-lambda build functions -c ./webpack.config.js",
     "build": "npm run buildFunctions && react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
