@@ -13,9 +13,15 @@ exports.handler = (event, context, callback) => {
   return client.query(q.Create(q.Ref("classes/todos"), {data}))
   .then((response) => {
     console.log("success", response);
-    callback(false, response);
+    return callback(null, {
+      statusCode: 200,
+      body: JSON.stringify(response)
+    })
   }).catch((error) => {
     console.log("error", error);
-    callback(error)
+    return callback(null, {
+      statusCode: 400,
+      body: JSON.stringify(error)
+    })
   })
 };
