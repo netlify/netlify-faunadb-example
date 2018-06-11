@@ -8,6 +8,8 @@ const client = new faunadb.Client({
 });
 
 exports.handler = (event, context, callback) => {
+  console.log('event', event)
+  console.log('context', context)
   console.log(`readOne todo ${event.pathParameters.id}`);
   return client.query(q.Get(q.Ref("classes/todos/"+event.pathParameters.id)))
   .then((response) => {
