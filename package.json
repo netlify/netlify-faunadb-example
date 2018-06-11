@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "bootstrap": "node ./init-faunadb.js",
     "buildFunctions": "netlify-lambda build functions",
     "build": "npm run buildFunctions && react-scripts build",
     "test": "react-scripts test --env=jsdom",
