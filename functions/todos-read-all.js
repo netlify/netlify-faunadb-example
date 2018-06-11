@@ -7,7 +7,7 @@ const client = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET
 });
 
-module.exports = (event, callback) => {
+exports.handler = (event, context, callback) => {
   console.log("readAll todo");
   return client.query(q.Paginate(q.Match(q.Ref("indexes/all_todos"))))
   .then((response) => {

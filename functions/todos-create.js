@@ -7,7 +7,7 @@ const client = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET
 });
 
-module.exports = (event, callback) => {
+exports.handler = (event, context, callback) => {
   const data = JSON.parse(event.body);
   console.log("create todo", data);
   return client.query(q.Create(q.Ref("classes/todos"), {data}))

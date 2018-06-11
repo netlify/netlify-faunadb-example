@@ -7,7 +7,7 @@ const client = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET
 });
 
-module.exports = (event, callback) => {
+exports.handler = (event, context, callback) => {
   console.log("delete todo");
   return client.query(q.Delete(q.Ref("classes/todos/"+event.pathParameters.id)))
   .then((response) => {
