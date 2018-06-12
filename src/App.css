@@ -17,7 +17,7 @@
   height: 105px;
   padding: 20px;
   color: white;
-  padding-left: 40px;
+  padding-left: 60px;
 }
 
 .App-title {
@@ -29,7 +29,7 @@
 }
 
 .todo-list {
-  padding: 50px;
+  padding: 60px;
   padding-top: 10px;
   width: 600px;
 }
