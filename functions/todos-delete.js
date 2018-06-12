@@ -7,7 +7,7 @@ const client = new faunadb.Client({
 
 exports.handler = (event, context, callback) => {
   const id = event.path.replace(/\/\.netlify\/functions\/todos-delete\//, "")
-  console.log("delete todo", id)
+  console.log(`Function 'todo-delete' invoked. delete id: ${id}`)
   return client.query(q.Delete(q.Ref(`classes/todos/${id}`)))
   .then((response) => {
     console.log("success", response)

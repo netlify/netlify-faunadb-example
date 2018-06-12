@@ -7,7 +7,7 @@ const client = new faunadb.Client({
 
 exports.handler = (event, context, callback) => {
   const data = JSON.parse(event.body)
-  console.log("create todo", data)
+  console.log("Function `todo-create` invoked")
   return client.query(q.Create(q.Ref("classes/todos"), {data}))
   .then((response) => {
     console.log("success", response)

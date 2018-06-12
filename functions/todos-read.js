@@ -7,7 +7,7 @@ const client = new faunadb.Client({
 
 exports.handler = (event, context, callback) => {
   const id = event.path.replace(/\/\.netlify\/functions\/todos-read\//, "")
-  console.log(`readOne todo ${id}`)
+  console.log(`Function 'todo-read' invoked. Read id: ${id}`)
   return client.query(q.Get(q.Ref(`classes/todos/${id}`)))
   .then((response) => {
     console.log("success", response)
