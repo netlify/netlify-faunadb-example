@@ -64,6 +64,17 @@
   font-weight: 500;
   color: #5a5a5a;
   flex-grow: 1;
+  position: relative;
+}
+.todo-list-title:hover span[contenteditable="false"]:before {
+  content: 'Click to edit';
+  position: absolute;
+  top: -5px;
+  left: 11px;
+  font-size: 10px;
+  font-weight: 300;
+  color: #c1c1c1;
+  letter-spacing: 1px;
 }
 
 @keyframes App-logo-spin {
