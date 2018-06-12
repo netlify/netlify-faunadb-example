@@ -1,27 +1,25 @@
-'use strict';
-
 import faunadb from 'faunadb'
-// const faunadb = require('faunadb');
-const q = faunadb.query;
+
+const q = faunadb.query
 const client = new faunadb.Client({
   secret: process.env.FAUNADB_SECRET
-});
+})
 
 exports.handler = (event, context, callback) => {
-  const data = JSON.parse(event.body);
-  console.log("create todo", data);
+  const data = JSON.parse(event.body)
+  console.log("create todo", data)
   return client.query(q.Create(q.Ref("classes/todos"), {data}))
   .then((response) => {
-    console.log("success", response);
+    console.log("success", response)
     return callback(null, {
       statusCode: 200,
       body: JSON.stringify(response)
     })
   }).catch((error) => {
-    console.log("error", error);
+    console.log("error", error)
     return callback(null, {
       statusCode: 400,
       body: JSON.stringify(error)
     })
   })
-};
+}
