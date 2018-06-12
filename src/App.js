@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
+import ContentEditable from './components/ContentEditable'
 import './App.css'
 
 class App extends Component {
@@ -30,7 +31,7 @@ class App extends Component {
       return false
     }
 
-    // reset input
+    // reset input to empty
     this.inputElement.value = ''
 
     // Optimistically add todo to UI
@@ -109,6 +110,49 @@ class App extends Component {
       })
     })
   }
+  updateTodo = (id, todoValue) => {
+    // Make API request to update todo
+    fetch(`/.netlify/functions/todos-update/${id}`, {
+      body: JSON.stringify({
+        title: todoValue
+      }),
+      method: 'POST',
+      // mode: 'cors', // no-cors, cors, *same-origin
+    })
+    .then(response => response.json())
+    .then((json) => {
+      console.log(json)
+      // fin
+    }).catch((e) => {
+      console.log('An API error occurred', e)
+    })
+  }
+  handleDataChange = (event, currentValue) => {
+    // save on change debounced?
+  }
+  handleBlur = (event, currentValue) => {
+    let isDifferent = false
+    const key = event.target.dataset.key
+
+    const updatedTodos = this.state.todos.map((todo, i) => {
+      const { data, ref } = todo
+      const id = getTodoId(todo)
+      if (id === key && todo.data.title !== currentValue) {
+        todo.data.title = currentValue
+        isDifferent = true
+      }
+      return todo
+    })
+
+    // only set state if input different
+    if (isDifferent) {
+      this.setState({
+        todos: updatedTodos
+      }, () => {
+        this.updateTodo(key, currentValue)
+      })
+    }
+  }
   renderTodos() {
     const { todos } = this.state
     return todos.map((todo, i) => {
@@ -124,7 +168,14 @@ class App extends Component {
       return (
         <div key={i} className='todo-item'>
           <div className='todo-list-title'>
-            {data.title}
+            <ContentEditable
+              tagName='span'
+              editKey={id}
+              onChange={this.handleDataChange} // handle innerHTML change
+              onBlur={this.handleBlur} // handle innerHTML change
+              html={data.title}
+            >
+            </ContentEditable>
           </div>
           {deleteButton}
         </div>

@@ -63,6 +63,7 @@
   font-size: 17px;
   font-weight: 500;
   color: #5a5a5a;
+  flex-grow: 1;
 }
 
 @keyframes App-logo-spin {
