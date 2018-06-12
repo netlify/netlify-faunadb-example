@@ -145,7 +145,8 @@
     font-size: 15px;
   }
   .todo-create-input {
-    margin-bottom: 15px; 
+    margin-bottom: 15px;
+    border: 1px solid rgba(120, 130, 152, 0.25);
   }
   .view-src {
     display: none;
