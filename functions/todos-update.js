@@ -1,4 +1,5 @@
 import faunadb from 'faunadb'
+import getId from './utils/getId'
 
 const q = faunadb.query
 const client = new faunadb.Client({
@@ -7,7 +8,7 @@ const client = new faunadb.Client({
 
 exports.handler = (event, context, callback) => {
   const data = JSON.parse(event.body)
-  const id = event.path.replace(/\/\.netlify\/functions\/todos-update\//, "")
+  const id = getId(event.path)
   console.log(`Function 'todo-update' invoked. update id: ${id}`)
   return client.query(q.Update(q.Ref(`classes/todos/${id}`), {data}))
   .then((response) => {

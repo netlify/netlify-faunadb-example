@@ -1,4 +1,5 @@
 import faunadb from 'faunadb'
+import getId from './utils/getId'
 
 const q = faunadb.query
 const client = new faunadb.Client({
@@ -6,7 +7,7 @@ const client = new faunadb.Client({
 })
 
 exports.handler = (event, context, callback) => {
-  const id = event.path.replace(/\/\.netlify\/functions\/todos-read\//, "")
+  const id = getId(event.path)
   console.log(`Function 'todo-read' invoked. Read id: ${id}`)
   return client.query(q.Get(q.Ref(`classes/todos/${id}`)))
   .then((response) => {
