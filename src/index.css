@@ -3,3 +3,29 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+button {
+  padding: 7px 15px;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  border: 1px solid #e9ebeb;
+  border-bottom: 1px solid #e1e3e3;
+  border-radius: 4px;
+  background-color: #fff;
+  color: rgba(14,30,37,.87);
+  box-shadow: 0 2px 4px 0 rgba(14,30,37,.12);
+  transition: all .2s ease;
+  transition-property: background-color,color,border,box-shadow;
+  outline: 0;
+  cursor: pointer;
+}
+
+button:focus, button:hover {
+  background-color: #f5f5f5;
+  color: rgba(14,30,37,.87);
+  box-shadow: 0 8px 12px 0 rgba(233,235,235,.16), 0 2px 8px 0 rgba(0,0,0,.08);
+  text-decoration: none;
+}

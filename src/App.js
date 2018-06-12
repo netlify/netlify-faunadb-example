@@ -20,9 +20,6 @@ class App extends Component {
       })
     })
   }
-  logState = () => {
-    console.log(this.state)
-  }
   saveTodo = (e) => {
     e.preventDefault();
     const { todos } = this.state
@@ -32,6 +29,9 @@ class App extends Component {
       alert('Please add todo text')
       return false
     }
+
+    // reset input
+    this.inputElement.value = ''
 
     // Optimistically add todo to UI
     const temporaryValue = {
@@ -114,10 +114,19 @@ class App extends Component {
     return todos.map((todo, i) => {
       const { data, ref } = todo
       const id = getTodoId(todo)
-      console.log('id', id)
+      // only show delete button after create API response returns
+      let deleteButton
+      if (ref) {
+        deleteButton = (
+          <button data-id={id} onClick={this.deleteTodo}>delete</button>
+        )
+      }
       return (
-        <div key={i} style={{borderBottom: '1px solid black', padding: 20}}>
-          {data.title} <button data-id={id} onClick={this.deleteTodo}>delete</button>
+        <div key={i} className='todo-item'>
+          <div>
+            {data.title}
+          </div>
+          {deleteButton}
         </div>
       )
     })
@@ -126,24 +135,34 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Netlify + Fauna DB</h1>
+          <div className="app-title-wrapper">
+            <img src={logo} className="App-logo" alt="logo" />
+            <div>
+              <h1 className="App-title">Netlify + Fauna DB</h1>
+              <p className="App-intro">
+                Using FaunaDB & netlify functions
+              </p>
+            </div>
+          </div>
         </header>
-        <p className="App-intro">
-          Using FaunaDB & netlify functions
-        </p>
-        <div>
-          <button onClick={this.logState}>log state</button>
+
+        <div className='todo-list'>
           <h2>Create todo</h2>
-          <form className='feature-add' onSubmit={this.saveTodo}>
-            <input placeholder='Todo Info' name='name' ref={el => this.inputElement = el} />
-            <button>
+          <form className='todo-create-wrapper' onSubmit={this.saveTodo}>
+            <input
+              className='todo-create-input'
+              placeholder='Add a todo item'
+              name='name'
+              ref={el => this.inputElement = el}
+              autocomplete='off'
+              style={{marginRight: 20}}
+            />
+            <button className='todo-create-button'>
               Create todo
             </button>
           </form>
+          {this.renderTodos()}
         </div>
-
-        {this.renderTodos()}
       </div>
     )
   }
