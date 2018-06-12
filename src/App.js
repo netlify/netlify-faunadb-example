@@ -1,8 +1,18 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
 
 class App extends Component {
+  componentDidMount() {
+    console.log('fetch items')
+    fetch('https://adoring-clarke-f30908.netlify.com/.netlify/functions/todos-read-all')
+      .then((response) => {
+        return response.json()
+      })
+      .then((myJson) => {
+        console.log(myJson)
+      })
+  }
   render() {
     return (
       <div className="App">
@@ -14,8 +24,8 @@ class App extends Component {
           Using FaunaDB & netlify functions
         </p>
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
