@@ -11,6 +11,10 @@
 .app-title-wrapper {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+.app-title-text {
+  flex-grow: 1;
 }
 .App-header {
   background-color: #222;
@@ -23,9 +27,32 @@
 .App-title {
   font-size: 1.5em;
 }
-
 .App-intro {
   font-size: large;
+}
+.deploy-button-wrapper {
+  margin-right: 20px;
+}
+.deploy-button {
+  width: 250px;
+}
+.view-src {
+  margin-top: 15px;
+  text-align: center;
+}
+.view-src img {
+  margin-right: 10px;
+}
+.view-src a {
+  text-decoration: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.github-icon {
+  width: 25px;
+  fill: white;
 }
 
 .todo-list {

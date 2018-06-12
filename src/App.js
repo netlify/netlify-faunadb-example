@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import logo from './logo.svg'
+import github from './github.svg'
+import deployButton from './deploy-to-netlify.svg'
 import ContentEditable from './components/ContentEditable'
 import './App.css'
 
@@ -188,11 +190,25 @@ class App extends Component {
         <header className="App-header">
           <div className="app-title-wrapper">
             <img src={logo} className="App-logo" alt="logo" />
-            <div>
+            <div className='app-title-text'>
               <h1 className="App-title">Netlify + Fauna DB</h1>
               <p className="App-intro">
                 Using FaunaDB & Netlify functions
               </p>
+            </div>
+            <div className='deploy-button-wrapper'>
+              <a
+                target='_blank'
+                href="https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example">
+                <img src={deployButton} className="deploy-button" alt="deploy to netlify" />
+              </a>
+              <div className='view-src'>
+                <a
+                  target='_blank'
+                  href="https://github.com/netlify/netlify-faunadb-example">
+                  <img className='github-icon' src={github} /> View the source Luke
+                </a>
+              </div>
             </div>
           </div>
         </header>
