@@ -33,14 +33,16 @@
   padding-top: 10px;
   width: 600px;
 }
+
 .todo-create-wrapper {
   margin-bottom: 20px;
 }
 .todo-create-input {
-  padding: 12px 10px;
+  font-size: 14px;
+  padding: 11px 15px;
   min-width: 300px;
   display: inline-block;
-  box-shadow: 0px 0px 0px 2px rgba(69, 101, 173, 0.1);
+  box-shadow: 0px 0px 0px 2px rgba(120, 130, 152, 0.25);
   border: none;
   outline: none;
   transition: all 0.3s ease;
@@ -55,6 +57,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 43px;
+}
+.todo-list-title {
+  font-size: 17px;
+  font-weight: 500;
+  color: #5a5a5a;
 }
 
 @keyframes App-logo-spin {

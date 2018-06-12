@@ -123,7 +123,7 @@ class App extends Component {
       }
       return (
         <div key={i} className='todo-item'>
-          <div>
+          <div className='todo-list-title'>
             {data.title}
           </div>
           {deleteButton}
