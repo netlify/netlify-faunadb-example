@@ -191,7 +191,7 @@ class App extends Component {
             <div>
               <h1 className="App-title">Netlify + Fauna DB</h1>
               <p className="App-intro">
-                Using FaunaDB & netlify functions
+                Using FaunaDB & Netlify functions
               </p>
             </div>
           </div>
