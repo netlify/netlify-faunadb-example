@@ -154,7 +154,7 @@ class App extends Component {
               placeholder='Add a todo item'
               name='name'
               ref={el => this.inputElement = el}
-              autocomplete='off'
+              autoComplete='off'
               style={{marginRight: 20}}
             />
             <button className='todo-create-button'>
