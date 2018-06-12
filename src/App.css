@@ -19,7 +19,9 @@
   color: white;
   padding-left: 60px;
 }
-
+.app-left-nav {
+  display: flex;
+}
 .app-title {
   font-size: 1.5em;
 }
@@ -33,7 +35,7 @@
   align-items: center;
 }
 .deploy-button {
-  width: 250px;
+  width: 200px;
 }
 .view-src {
   margin-top: 15px;
@@ -110,6 +112,10 @@
 
 
 @media (max-width: 768px) {
+  .app-title-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .app-title {
     font-size: 18px;
   }
@@ -123,15 +129,25 @@
   }
   .app-header {
     padding-left: 20px;
+    height: auto;
   }
   .app-logo {
     height: 60px;
     margin-right: 10px;
+  }
+  .deploy-button-wrapper {
+    margin-left: 70px;
   }
   .deploy-button {
     width: 150px;
   }
   .todo-list-title {
     font-size: 15px;
+  }
+  .todo-create-input {
+    margin-bottom: 15px; 
+  }
+  .view-src {
+    display: none;
   }
 }
