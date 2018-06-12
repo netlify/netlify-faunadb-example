@@ -1,8 +1,4 @@
-.App {
-
-}
-
-.App-logo {
+.app-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 95px;
   margin-right: 20px;
@@ -16,7 +12,7 @@
 .app-title-text {
   flex-grow: 1;
 }
-.App-header {
+.app-header {
   background-color: #222;
   height: 105px;
   padding: 20px;
@@ -24,14 +20,17 @@
   padding-left: 60px;
 }
 
-.App-title {
+.app-title {
   font-size: 1.5em;
 }
-.App-intro {
+.app-intro {
   font-size: large;
 }
 .deploy-button-wrapper {
   margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .deploy-button {
   width: 250px;
@@ -107,4 +106,32 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+
+@media (max-width: 768px) {
+  .app-title {
+    font-size: 18px;
+  }
+  .app-intro {
+    font-size: 14px;
+  }
+  .todo-list {
+    padding: 20px;
+    padding-top: 10px;
+    width: auto;
+  }
+  .app-header {
+    padding-left: 20px;
+  }
+  .app-logo {
+    height: 60px;
+    margin-right: 10px;
+  }
+  .deploy-button {
+    width: 150px;
+  }
+  .todo-list-title {
+    font-size: 15px;
+  }
 }
