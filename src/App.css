@@ -183,7 +183,7 @@
 .todo__state:checked ~ .todo__icon .todo__circle {
   animation-name: explode;
 }
-.todo-completed .todo__state:checked ~ .todo__icon .todo__circle {
+/* .todo-completed .todo__state:checked ~ .todo__icon .todo__circle {
   animation-name: none;
   animation: none;
-}
+} */

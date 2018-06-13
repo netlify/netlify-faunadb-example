@@ -110,7 +110,6 @@ class App extends Component {
       return todo
     })
 
-    // only set state if input different
     this.setState({
       todos: updatedTodos
     }, () => {
