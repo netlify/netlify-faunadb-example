@@ -133,10 +133,12 @@
   }
   .app-logo {
     height: 60px;
-    margin-right: 10px;
+    margin-right: 20px;
+    animation: none;
   }
   .deploy-button-wrapper {
-    margin-left: 70px;
+    margin-left: 80px;
+    margin-top: 5px;
   }
   .deploy-button {
     width: 150px;
@@ -148,6 +150,8 @@
   .todo-create-input {
     margin-bottom: 15px;
     border: 1px solid rgba(120, 130, 152, 0.25);
+    /* Disable Auto Zoom in Input “Text” tag - Safari on iPhone */
+    font-size: 16px;
   }
   .view-src {
     display: none;
