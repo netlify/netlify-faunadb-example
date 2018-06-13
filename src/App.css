@@ -160,6 +160,11 @@
   .todo-item button {
     padding: 4px 12px;
     font-size: 14px;
+    margin-bottom: 0px;
+    min-width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .view-src {
     display: none;
