@@ -129,6 +129,10 @@ class App extends Component {
       console.log('An API error occurred', e)
     })
   }
+  handleTodoToggle = (e) => {
+    console.log('checkbox changed')
+    console.log(e.target.checked);
+  }
   handleDataChange = (event, currentValue) => {
     // save on change debounced?
   }
@@ -137,7 +141,6 @@ class App extends Component {
     const key = event.target.dataset.key
 
     const updatedTodos = this.state.todos.map((todo, i) => {
-      const { data, ref } = todo
       const id = getTodoId(todo)
       if (id === key && todo.data.title !== currentValue) {
         todo.data.title = currentValue
@@ -164,21 +167,34 @@ class App extends Component {
       let deleteButton
       if (ref) {
         deleteButton = (
-          <button data-id={id} onClick={this.deleteTodo}>delete</button>
+          <button data-id={id} onClick={this.deleteTodo}>
+            delete
+          </button>
         )
       }
       return (
         <div key={i} className='todo-item'>
-          <div className='todo-list-title'>
-            <ContentEditable
-              tagName='span'
-              editKey={id}
-              onChange={this.handleDataChange} // handle innerHTML change
-              onBlur={this.handleBlur} // handle innerHTML change
-              html={data.title}
-            >
-            </ContentEditable>
-          </div>
+          <label className="todo">
+            <input className="todo__state" type="checkbox" onChange={this.handleTodoToggle} />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25" className="todo__icon">
+              <use xlinkHref="#todo__box" className="todo__box"></use>
+              <use xlinkHref="#todo__check" className="todo__check"></use>
+              <use xlinkHref="#todo__circle" className="todo__circle"></use>
+            </svg>
+            <div className='todo-list-title'>
+
+                <ContentEditable
+                  tagName='span'
+                  editKey={id}
+                  onChange={this.handleDataChange} // handle innerHTML change
+                  onBlur={this.handleBlur} // handle innerHTML change
+                  html={data.title}
+                >
+                </ContentEditable>
+
+            </div>
+          </label>
+
           {deleteButton}
         </div>
       )
@@ -186,15 +202,15 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="app">
-        <header className="app-header">
-          <div className="app-title-wrapper">
-            <div className="app-title-wrapper">
+      <div className='app'>
+        <header className='app-header'>
+          <div className='app-title-wrapper'>
+            <div className='app-title-wrapper'>
               <div className='app-left-nav'>
-                <img src={logo} className="app-logo" alt="logo" />
+                <img src={logo} className='app-logo' alt='logo' />
                 <div className='app-title-text'>
-                  <h1 className="app-title">Netlify + Fauna DB</h1>
-                  <p className="app-intro">
+                  <h1 className='app-title'>Netlify + Fauna DB</h1>
+                  <p className='app-intro'>
                     Using FaunaDB & Netlify functions
                   </p>
                 </div>
@@ -203,14 +219,16 @@ class App extends Component {
             <div className='deploy-button-wrapper'>
               <a
                 target='_blank'
-                href="https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example">
-                <img src={deployButton} className="deploy-button" alt="deploy to netlify" />
+                rel='noopener noreferrer'
+                href='https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example'>
+                <img src={deployButton} className='deploy-button' alt='deploy to netlify' />
               </a>
               <div className='view-src'>
                 <a
                   target='_blank'
-                  href="https://github.com/netlify/netlify-faunadb-example">
-                  <img className='github-icon' src={github} /> View the source Luke
+                  rel='noopener noreferrer'
+                  href='https://github.com/netlify/netlify-faunadb-example'>
+                  <img className='github-icon' src={github} alt='view repo on github' /> View the source Luke
                 </a>
               </div>
             </div>
