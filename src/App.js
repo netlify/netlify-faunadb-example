@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import api from './utils/api'
+import ContentEditable from './components/ContentEditable'
+import deployButton from './deploy-to-netlify.svg'
 import logo from './logo.svg'
 import github from './github.svg'
-import deployButton from './deploy-to-netlify.svg'
-import ContentEditable from './components/ContentEditable'
 import './App.css'
 
 class App extends Component {
@@ -10,21 +11,16 @@ class App extends Component {
     todos: []
   }
   componentDidMount() {
-    console.log('fetch items')
-    fetch('/.netlify/functions/todos-read-all')
-    .then((response) => {
-      console.log(response)
-      return response.json()
-    })
-    .then((myJson) => {
-      console.log(myJson)
+    // Fetch all todos
+    api.readAll().then((response) => {
+      console.log('all todos', response)
       this.setState({
-        todos: myJson
+        todos: response
       })
     })
   }
   saveTodo = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const { todos } = this.state
     const todoValue = this.inputElement.value
 
@@ -36,35 +32,26 @@ class App extends Component {
     // reset input to empty
     this.inputElement.value = ''
 
-    // Optimistically add todo to UI
-    const temporaryValue = {
-      data: {
-        title: todoValue
-      }
+    const todoInfo = {
+      title: todoValue,
+      completed: false
     }
-    const optimisticTodoState = todos.concat(temporaryValue)
+    // Optimistically add todo to UI
+    const optimisticTodoState = todos.concat({
+      data: todoInfo
+    })
     this.setState({
       todos: optimisticTodoState
     })
-
     // Make API request to create new todo
-    fetch('/.netlify/functions/todos-create', {
-      body: JSON.stringify({
-        title: todoValue
-      }),
-      method: 'POST',
-      // mode: 'cors', // no-cors, cors, *same-origin
-    })
-    .then(response => response.json())
-    .then((json) => {
-      console.log(json)
+    api.create(todoInfo).then((response) => {
+      console.log(response)
       // remove temporaryValue from state and persist API response
-      const persistedState = removeOptimisticTodo(todos).concat(json)
+      const persistedState = removeOptimisticTodo(todos).concat(response)
       // Set persisted value to state
       this.setState({
         todos: persistedState
       })
-      // fin
     }).catch((e) => {
       console.log('An API error occurred', e)
       const revertedState = removeOptimisticTodo(todos)
@@ -77,7 +64,7 @@ class App extends Component {
   deleteTodo = (e) => {
     const { todos } = this.state
     const todoId = e.target.dataset.id
-    console.log(`Delete todo ${todoId}`)
+
     // Optimistically remove todo from UI
     const filteredTodos = todos.reduce((acc, current) => {
       const currentId = getTodoId(current)
@@ -97,13 +84,10 @@ class App extends Component {
     this.setState({
       todos: filteredTodos.optimisticState
     })
+
     // Make API request to delete todo
-    fetch(`/.netlify/functions/todos-delete/${todoId}`, {
-      method: 'POST',
-    })
-    .then(response => response.json())
-    .then((json) => {
-      console.log(json)
+    api.delete(todoId).then(() => {
+      console.log(`deleted todo id ${todoId}`)
     }).catch((e) => {
       console.log(`There was an error removing ${todoId}`, e)
       // Add item removed back to list
@@ -112,37 +96,44 @@ class App extends Component {
       })
     })
   }
-  updateTodo = (id, todoValue) => {
-    // Make API request to update todo
-    fetch(`/.netlify/functions/todos-update/${id}`, {
-      body: JSON.stringify({
-        title: todoValue
-      }),
-      method: 'POST',
-      // mode: 'cors', // no-cors, cors, *same-origin
+  handleTodoCheckbox = (event) => {
+    const { target } = event
+    const todoCompleted = target.checked
+    const todoId = target.dataset.id
+
+    const updatedTodos = this.state.todos.map((todo, i) => {
+      const { data } = todo
+      const id = getTodoId(todo)
+      if (id === todoId && data.completed !== todoCompleted) {
+        data.completed = todoCompleted
+      }
+      return todo
     })
-    .then(response => response.json())
-    .then((json) => {
-      console.log(json)
-      // fin
-    }).catch((e) => {
-      console.log('An API error occurred', e)
+
+    // only set state if input different
+    this.setState({
+      todos: updatedTodos
+    }, () => {
+      api.update(todoId, {
+        completed: todoCompleted
+      }).then(() => {
+        console.log(`update todo ${todoId}`, todoCompleted)
+      }).catch((e) => {
+        console.log('An API error occurred', e)
+      })
     })
-  }
-  handleTodoToggle = (e) => {
-    console.log('checkbox changed')
-    console.log(e.target.checked);
   }
   handleDataChange = (event, currentValue) => {
     // save on change debounced?
   }
   handleBlur = (event, currentValue) => {
+    console.log('blur')
     let isDifferent = false
-    const key = event.target.dataset.key
+    const todoId = event.target.dataset.key
 
     const updatedTodos = this.state.todos.map((todo, i) => {
       const id = getTodoId(todo)
-      if (id === key && todo.data.title !== currentValue) {
+      if (id === todoId && todo.data.title !== currentValue) {
         todo.data.title = currentValue
         isDifferent = true
       }
@@ -154,7 +145,13 @@ class App extends Component {
       this.setState({
         todos: updatedTodos
       }, () => {
-        this.updateTodo(key, currentValue)
+        api.update(todoId, {
+          title: currentValue
+        }).then(() => {
+          console.log(`update todo ${todoId}`, currentValue)
+        }).catch((e) => {
+          console.log('An API error occurred', e)
+        })
       })
     }
   }
@@ -172,10 +169,17 @@ class App extends Component {
           </button>
         )
       }
+      const completedClass = (data.completed) ? 'todo-completed' : ''
       return (
-        <div key={i} className='todo-item'>
+        <div key={i} className={`todo-item ${completedClass}`}>
           <label className="todo">
-            <input className="todo__state" type="checkbox" onChange={this.handleTodoToggle} />
+            <input
+              data-id={id}
+              className="todo__state"
+              type="checkbox"
+              onChange={this.handleTodoCheckbox}
+              checked={data.completed}
+            />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25" className="todo__icon">
               <use xlinkHref="#todo__box" className="todo__box"></use>
               <use xlinkHref="#todo__check" className="todo__check"></use>
