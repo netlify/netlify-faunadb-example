@@ -166,6 +166,19 @@
     align-items: center;
     justify-content: center;
   }
+  .todo-list-title:hover span[contenteditable="false"]:before {
+    content: ''
+  }
+  .todo-list-title:hover span[contenteditable="true"]:before {
+    content: 'click to edit';
+    position: absolute;
+    top: -20px;
+    left: 9px;
+    font-size: 11px;
+    font-weight: 300;
+    color: #adadad;
+    letter-spacing: 1px;
+  }
   .view-src {
     display: none;
   }
