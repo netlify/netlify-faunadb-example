@@ -1,61 +1,3 @@
-.app-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 95px;
-  margin-right: 20px;
-}
-
-.app-title-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.app-title-text {
-  flex-grow: 1;
-}
-.app-header {
-  background-color: #222;
-  height: 105px;
-  padding: 20px;
-  color: white;
-  padding-left: 60px;
-}
-.app-left-nav {
-  display: flex;
-}
-.app-title {
-  font-size: 1.5em;
-}
-.app-intro {
-  font-size: large;
-}
-.deploy-button-wrapper {
-  margin-right: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.deploy-button {
-  width: 200px;
-}
-.view-src {
-  margin-top: 15px;
-  text-align: center;
-}
-.view-src img {
-  margin-right: 10px;
-}
-.view-src a {
-  text-decoration: none;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.github-icon {
-  width: 25px;
-  fill: white;
-}
-
 .todo-list {
   padding: 60px;
   padding-top: 10px;
@@ -108,43 +50,11 @@
   letter-spacing: 1px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-
 @media (max-width: 768px) {
-  .app-title-wrapper {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .app-title {
-    font-size: 18px;
-  }
-  .app-intro {
-    font-size: 14px;
-  }
   .todo-list {
     padding: 15px;
     padding-top: 10px;
     width: auto;
-  }
-  .app-header {
-    padding-left: 20px;
-    height: auto;
-  }
-  .app-logo {
-    height: 60px;
-    margin-right: 20px;
-    animation: none;
-  }
-  .deploy-button-wrapper {
-    margin-left: 80px;
-    margin-top: 5px;
-  }
-  .deploy-button {
-    width: 150px;
   }
   .todo-list-title {
     /* Disable Auto Zoom in Input “Text” tag - Safari on iPhone */
@@ -179,9 +89,6 @@
     font-weight: 300;
     color: #adadad;
     letter-spacing: 1px;
-  }
-  .view-src {
-    display: none;
   }
 }
 

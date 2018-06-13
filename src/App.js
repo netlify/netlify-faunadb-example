@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import api from './utils/api'
 import ContentEditable from './components/ContentEditable'
-import deployButton from './deploy-to-netlify.svg'
-import logo from './logo.svg'
-import github from './github.svg'
+import AppHeader from './components/AppHeader'
 import './App.css'
 
 class App extends Component {
@@ -25,7 +23,8 @@ class App extends Component {
     const todoValue = this.inputElement.value
 
     if (!todoValue) {
-      alert('Please add todo text')
+      alert('Please add Todo title')
+      this.inputElement.focus()
       return false
     }
 
@@ -97,11 +96,12 @@ class App extends Component {
     })
   }
   handleTodoCheckbox = (event) => {
+    const { todos } = this.state
     const { target } = event
     const todoCompleted = target.checked
     const todoId = target.dataset.id
 
-    const updatedTodos = this.state.todos.map((todo, i) => {
+    const updatedTodos = todos.map((todo, i) => {
       const { data } = todo
       const id = getTodoId(todo)
       if (id === todoId && data.completed !== todoCompleted) {
@@ -123,11 +123,7 @@ class App extends Component {
       })
     })
   }
-  handleDataChange = (event, currentValue) => {
-    // save on change debounced?
-  }
-  handleBlur = (event, currentValue) => {
-    console.log('blur')
+  updateTodoTitle = (event, currentValue) => {
     let isDifferent = false
     const todoId = event.target.dataset.key
 
@@ -186,16 +182,13 @@ class App extends Component {
               <use xlinkHref="#todo__circle" className="todo__circle"></use>
             </svg>
             <div className='todo-list-title'>
-
-                <ContentEditable
-                  tagName='span'
-                  editKey={id}
-                  onChange={this.handleDataChange} // handle innerHTML change
-                  onBlur={this.handleBlur} // handle innerHTML change
-                  html={data.title}
-                >
-                </ContentEditable>
-
+              <ContentEditable
+                tagName='span'
+                editKey={id}
+                // onChange={this.handleDataChange} // save on change
+                onBlur={this.updateTodoTitle} // save on enter/blur
+                html={data.title}
+              />
             </div>
           </label>
 
@@ -207,37 +200,7 @@ class App extends Component {
   render() {
     return (
       <div className='app'>
-        <header className='app-header'>
-          <div className='app-title-wrapper'>
-            <div className='app-title-wrapper'>
-              <div className='app-left-nav'>
-                <img src={logo} className='app-logo' alt='logo' />
-                <div className='app-title-text'>
-                  <h1 className='app-title'>Netlify + Fauna DB</h1>
-                  <p className='app-intro'>
-                    Using FaunaDB & Netlify functions
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className='deploy-button-wrapper'>
-              <a
-                target='_blank'
-                rel='noopener noreferrer'
-                href='https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example'>
-                <img src={deployButton} className='deploy-button' alt='deploy to netlify' />
-              </a>
-              <div className='view-src'>
-                <a
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href='https://github.com/netlify/netlify-faunadb-example'>
-                  <img className='github-icon' src={github} alt='view repo on github' /> View the source Luke
-                </a>
-              </div>
-            </div>
-          </div>
-        </header>
+        <AppHeader />
 
         <div className='todo-list'>
           <h2>Create todo</h2>
