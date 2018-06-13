@@ -148,6 +148,7 @@
     max-width: 77%;
   }
   .todo-create-input {
+    appearance: none;
     margin-bottom: 15px;
     border: 1px solid rgba(120, 130, 152, 0.25);
     /* Disable Auto Zoom in Input “Text” tag - Safari on iPhone */
