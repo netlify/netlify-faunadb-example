@@ -143,6 +143,7 @@
   }
   .todo-list-title {
     font-size: 15px;
+    max-width: 77%;
   }
   .todo-create-input {
     margin-bottom: 15px;
