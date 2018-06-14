@@ -36,7 +36,7 @@
   flex-grow: 1;
   position: relative;
   z-index: 2;
-  margin-left: 40px;
+  margin-left: 45px;
   width: 470px;
 }
 .todo-list-title:hover span[contenteditable="false"]:before {
@@ -60,6 +60,7 @@
     /* Disable Auto Zoom in Input “Text” tag - Safari on iPhone */
     font-size: 16px;
     max-width: 80%;
+    margin-left: 40px;
   }
   .todo-create-input {
     appearance: none;
