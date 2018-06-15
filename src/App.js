@@ -152,6 +152,11 @@ class App extends Component {
   }
   renderTodos() {
     const { todos } = this.state
+
+    if (!todos || !todos.length) {
+      return null
+    }
+
     return todos.map((todo, i) => {
       const { data, ref } = todo
       const id = getTodoId(todo)
