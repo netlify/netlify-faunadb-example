@@ -1,5 +1,4 @@
 .app-logo {
-  animation: App-logo-spin infinite 20s linear;
   height: 95px;
   margin-right: 20px;
 }
@@ -22,7 +21,9 @@
   display: flex;
 }
 .app-title {
-  font-size: 1.5em;
+  font-size: 32px;
+  margin: 0px;
+  margin-top: 10px;
 }
 .app-intro {
   font-size: large;
@@ -67,7 +68,8 @@
     align-items: flex-start;
   }
   .app-title {
-    font-size: 18px;
+    font-size: 23px;
+    margin-top: 0px;
   }
   .app-intro {
     font-size: 14px;

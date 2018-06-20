@@ -12,6 +12,7 @@ class App extends Component {
     // Fetch all todos
     api.readAll().then((response) => {
       console.log('all todos', response)
+
       this.setState({
         todos: response
       })
@@ -33,12 +34,16 @@ class App extends Component {
 
     const todoInfo = {
       title: todoValue,
-      completed: false
+      completed: false,
     }
     // Optimistically add todo to UI
-    const optimisticTodoState = todos.concat({
-      data: todoInfo
-    })
+    const newTodoArray = [{
+      data: todoInfo,
+      ts: new Date().getTime() * 10000
+    }]
+
+    const optimisticTodoState = newTodoArray.concat(todos)
+
     this.setState({
       todos: optimisticTodoState
     })
@@ -157,7 +162,14 @@ class App extends Component {
       return null
     }
 
-    return todos.map((todo, i) => {
+    const sortOrder = sortDate('ts')
+    const todosByDate = todos.sort(sortOrder)
+
+    todosByDate.forEach((item) => {
+      console.log(item)
+    })
+
+    return todosByDate.map((todo, i) => {
       const { data, ref } = todo
       const id = getTodoId(todo)
       // only show delete button after create API response returns
@@ -170,6 +182,7 @@ class App extends Component {
         )
       }
       const completedClass = (data.completed) ? 'todo-completed' : ''
+      const icon = (data.completed) ? '#todo__box__done' : '#todo__box'
       return (
         <div key={i} className={`todo-item ${completedClass}`}>
           <label className="todo">
@@ -181,7 +194,7 @@ class App extends Component {
               checked={data.completed}
             />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25" className="todo__icon">
-              <use xlinkHref="#todo__box" className="todo__box"></use>
+              <use xlinkHref={`${icon}`} className="todo__box"></use>
               <use xlinkHref="#todo__check" className="todo__check"></use>
               <use xlinkHref="#todo__circle" className="todo__circle"></use>
             </svg>
@@ -225,6 +238,18 @@ class App extends Component {
         </div>
       </div>
     )
+  }
+}
+
+function sortDate(dateKey, order) {
+  return function (a, b) {
+    const timeA = new Date(a[dateKey]).getTime()
+    const timeB = new Date(b[dateKey]).getTime()
+    if (order === 'asc') {
+      return timeA - timeB
+    }
+    // default 'desc' descending order
+    return timeB - timeA
   }
 }
 
