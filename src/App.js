@@ -196,7 +196,6 @@ class App extends Component {
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25" className="todo__icon">
               <use xlinkHref={`${icon}`} className="todo__box"></use>
               <use xlinkHref="#todo__check" className="todo__check"></use>
-              <use xlinkHref="#todo__circle" className="todo__circle"></use>
             </svg>
             <div className='todo-list-title'>
               <ContentEditable
