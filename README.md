@@ -12,24 +12,24 @@ Try it out on your own account via this link:
 
 1. Clone down the repository
 
-  ```
-  git clone
+  ```bash
+  git clone git@github.com:netlify/netlify-faunadb-example.git
   ```
 
 2. Install the dependencies
 
-  ```
+  ```bash
   npm install
   ```
 
 3. Bootstrap your FaunaDB table
 
-  ```
+  ```bash
   npm run bootstrap
   ```
 
 4. Run project locally
 
-  ```
+  ```bash
   npm start
   ```

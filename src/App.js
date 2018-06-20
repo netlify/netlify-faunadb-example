@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import api from './utils/api'
 import ContentEditable from './components/ContentEditable'
 import AppHeader from './components/AppHeader'
+import api from './utils/api'
+import sortByDate from './utils/sortByDate'
 import './App.css'
 
-class App extends Component {
+export default class App extends Component {
   state = {
     todos: []
   }
@@ -159,15 +160,14 @@ class App extends Component {
     const { todos } = this.state
 
     if (!todos || !todos.length) {
+      // Loading State here
       return null
     }
 
-    const sortOrder = sortDate('ts')
+    const timeStampKey = 'ts'
+    const orderBy = 'desc' // or `asc`
+    const sortOrder = sortByDate(timeStampKey, orderBy)
     const todosByDate = todos.sort(sortOrder)
-
-    todosByDate.forEach((item) => {
-      console.log(item)
-    })
 
     return todosByDate.map((todo, i) => {
       const { data, ref } = todo
@@ -181,10 +181,9 @@ class App extends Component {
           </button>
         )
       }
-      const completedClass = (data.completed) ? 'todo-completed' : ''
-      const icon = (data.completed) ? '#todo__box__done' : '#todo__box'
+      const boxIcon = (data.completed) ? '#todo__box__done' : '#todo__box'
       return (
-        <div key={i} className={`todo-item ${completedClass}`}>
+        <div key={i} className='todo-item'>
           <label className="todo">
             <input
               data-id={id}
@@ -194,20 +193,19 @@ class App extends Component {
               checked={data.completed}
             />
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 25" className="todo__icon">
-              <use xlinkHref={`${icon}`} className="todo__box"></use>
+              <use xlinkHref={`${boxIcon}`} className="todo__box"></use>
               <use xlinkHref="#todo__check" className="todo__check"></use>
             </svg>
             <div className='todo-list-title'>
               <ContentEditable
                 tagName='span'
                 editKey={id}
-                // onChange={this.handleDataChange} // save on change
                 onBlur={this.updateTodoTitle} // save on enter/blur
                 html={data.title}
+                // onChange={this.handleDataChange} // save on change
               />
             </div>
           </label>
-
           {deleteButton}
         </div>
       )
@@ -216,6 +214,7 @@ class App extends Component {
   render() {
     return (
       <div className='app'>
+
         <AppHeader />
 
         <div className='todo-list'>
@@ -240,18 +239,6 @@ class App extends Component {
   }
 }
 
-function sortDate(dateKey, order) {
-  return function (a, b) {
-    const timeA = new Date(a[dateKey]).getTime()
-    const timeB = new Date(b[dateKey]).getTime()
-    if (order === 'asc') {
-      return timeA - timeB
-    }
-    // default 'desc' descending order
-    return timeB - timeA
-  }
-}
-
 function removeOptimisticTodo(todos) {
   // return all 'real' todos
   return todos.filter((todo) => {
@@ -265,5 +252,3 @@ function getTodoId(todo) {
   }
   return todo.ref['@ref'].split('/').pop()
 }
-
-export default App
