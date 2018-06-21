@@ -158,13 +158,49 @@ export default class App extends Component {
       })
     }
   }
+  clearCompleted = () => {
+    const { todos } = this.state
+
+    // Optimistically remove todos from UI
+    const data = todos.reduce((acc, current) => {
+      if (current.data.completed) {
+        // save item being removed for rollback
+        acc.completedTodoIds = acc.completedTodoIds.concat(getTodoId(current))
+        return acc
+      }
+      // filter deleted todo out of the todos list
+      acc.optimisticState = acc.optimisticState.concat(current)
+      return acc
+    }, {
+      completedTodoIds: [],
+      optimisticState: []
+    })
+
+    // only set state if completed todos exist
+    if (!data.completedTodoIds.length) {
+      alert('Please check off some todos to batch remove them')
+      this.closeModal()
+      return false
+    }
+
+    this.setState({
+      todos: data.optimisticState
+    }, () => {
+      api.batchDelete(data.completedTodoIds).then(() => {
+        console.log(`Batch removal complete`, data.completedTodoIds)
+        this.closeModal()
+      }).catch((e) => {
+        console.log('An API error occurred', e)
+      })
+    })
+
+  }
   closeModal = (e) => {
     this.setState({
       showMenu: false
     })
   }
   openModal = () => {
-    console.log('settings')
     this.setState({
       showMenu: true
     })
@@ -254,7 +290,11 @@ export default class App extends Component {
 
           {this.renderTodos()}
         </div>
-        <SettingsMenu showMenu={this.state.showMenu} handleModalClose={this.closeModal} />
+        <SettingsMenu
+          showMenu={this.state.showMenu}
+          handleModalClose={this.closeModal}
+          handleClearCompleted={this.clearCompleted}
+        />
       </div>
     )
   }

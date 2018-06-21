@@ -34,9 +34,21 @@ const deleteTodo = (todoId) => {
   })
 }
 
+const batchDeleteTodo = (todoIds) => {
+  return fetch(`/.netlify/functions/todos-delete-batch`, {
+    body: JSON.stringify({
+      ids: todoIds
+    }),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
 export default {
   create: create,
   readAll: readAll,
   update: update,
-  delete: deleteTodo
+  delete: deleteTodo,
+  batchDelete: batchDeleteTodo
 }

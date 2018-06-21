@@ -20,6 +20,7 @@ export default class Menu extends Component {
     const deleteConfirm = window.confirm("Are you sure you want to clear all completed todos?");
     if (deleteConfirm) {
       console.log('delete')
+      this.props.handleClearCompleted()
     }
   }
   render() {
@@ -28,7 +29,9 @@ export default class Menu extends Component {
     return (
       <div className='settings-wrapper' style={{display: showOrHide}}>
         <div className='settings-content'>
-          <span className='settings-close' onClick={this.props.handleModalClose}>❌</span>
+          <span className='settings-close' onClick={this.props.handleModalClose} role="img" aria-label='close'>
+            ❌
+          </span>
           <h2>Settings</h2>
           <div className='settings-section' onClick={this.handleDelete}>
             <button className='btn-danger'>
