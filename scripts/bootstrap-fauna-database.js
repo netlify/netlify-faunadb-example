@@ -63,6 +63,10 @@ function createFaunaDB(key) {
     })
 }
 
+
+/* util methods */
+
+// Test if inside netlify build context
 function insideNetlifyBuildContext() {
   if (process.env.DEPLOY_PRIME_URL) {
     return true

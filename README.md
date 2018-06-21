@@ -1,6 +1,6 @@
 # Netlify + FaunaDB
 
-Example of using FaunaDB with [netlify functions](https://www.netlify.com/docs/functions/)
+Example of using FaunaDB with [Netlify functions](https://www.netlify.com/docs/functions/)
 
 Deploy this app with one-click via this link:
 
@@ -28,7 +28,17 @@ Deploy this app with one-click via this link:
   npm run bootstrap
   ```
 
-4. Run project locally
+4. Set your Fauna API key value in your terminal enviroment
+
+  You can create faunaDB keys here: https://dashboard.fauna.com/db/keys
+
+  In your terminal run the following command:
+
+  ```bash
+  export FAUNADB_SECRET=YourFaunaDBKeyHere
+  ```
+
+5. Run project locally
 
   ```bash
   npm start
