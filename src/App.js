@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ContentEditable from './components/ContentEditable'
 import AppHeader from './components/AppHeader'
 import SettingsMenu from './components/SettingsMenu'
+import SettingsIcon from './components/SettingsIcon'
 import api from './utils/api'
 import sortByDate from './utils/sortByDate'
 import './App.css'
@@ -230,7 +231,10 @@ export default class App extends Component {
         <AppHeader />
 
         <div className='todo-list'>
-          <h2>Create todo</h2>
+          <h2>
+            Create todo
+            <SettingsIcon onClick={this.openModal} className='mobile-toggle' />
+          </h2>
           <form className='todo-create-wrapper' onSubmit={this.saveTodo}>
             <input
               className='todo-create-input'
@@ -244,11 +248,7 @@ export default class App extends Component {
               <button className='todo-create-button'>
                 Create todo
               </button>
-              <span onClick={this.openModal}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125" className="todo-settings-toggle">
-                  <use xlinkHref="#settings" className="settings-gear"></use>
-                </svg>
-              </span>
+              <SettingsIcon onClick={this.openModal}  className='desktop-toggle' />
             </div>
           </form>
 

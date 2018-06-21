@@ -60,12 +60,31 @@
   color: #adadad;
   letter-spacing: 1px;
 }
+.mobile-toggle {
+  display: none;
+}
+.desktop-toggle {
+  margin-left: 10px;
+}
 
 @media (max-width: 768px) {
+  .mobile-toggle {
+    display: inline-flex;
+  }
+  .desktop-toggle {
+    display: none;
+  }
   .todo-list {
     padding: 15px;
     padding-top: 10px;
     width: auto;
+  }
+  .todo-list h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    max-width: 95%;
   }
   .todo-list-title {
     /* Disable Auto Zoom in Input “Text” tag - Safari on iPhone */
@@ -76,6 +95,7 @@
   .todo-create-wrapper {
     flex-direction: column;
     align-items: flex-start;
+    margin-bottom: 15px;
   }
   .todo-create-input {
     appearance: none;

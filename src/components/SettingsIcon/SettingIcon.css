@@ -1,0 +1,11 @@
+.setting-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.settings-toggle {
+  fill: #b7b9bd;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
