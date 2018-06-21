@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
 import ContentEditable from './components/ContentEditable'
 import AppHeader from './components/AppHeader'
+import SettingsMenu from './components/SettingsMenu'
 import api from './utils/api'
 import sortByDate from './utils/sortByDate'
 import './App.css'
 
 export default class App extends Component {
   state = {
-    todos: []
+    todos: [],
+    showMenu: false
   }
   componentDidMount() {
     // Fetch all todos
-    api.readAll().then((response) => {
-      console.log('all todos', response)
-
+    api.readAll().then((todos) => {
+      console.log('all todos', todos)
       this.setState({
-        todos: response
+        todos: todos
       })
     })
   }
@@ -156,6 +157,17 @@ export default class App extends Component {
       })
     }
   }
+  closeModal = (e) => {
+    this.setState({
+      showMenu: false
+    })
+  }
+  openModal = () => {
+    console.log('settings')
+    this.setState({
+      showMenu: true
+    })
+  }
   renderTodos() {
     const { todos } = this.state
 
@@ -228,12 +240,21 @@ export default class App extends Component {
               autoComplete='off'
               style={{marginRight: 20}}
             />
-            <button className='todo-create-button'>
-              Create todo
-            </button>
+            <div className='todo-actions'>
+              <button className='todo-create-button'>
+                Create todo
+              </button>
+              <span onClick={this.openModal}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 125" className="todo-settings-toggle">
+                  <use xlinkHref="#settings" className="settings-gear"></use>
+                </svg>
+              </span>
+            </div>
           </form>
+
           {this.renderTodos()}
         </div>
+        <SettingsMenu showMenu={this.state.showMenu} handleModalClose={this.closeModal} />
       </div>
     )
   }

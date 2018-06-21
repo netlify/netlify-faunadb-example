@@ -3,9 +3,20 @@
   padding-top: 10px;
   width: 600px;
 }
-
+.todo-settings-toggle {
+  fill: #b7b9bd;
+  width: 25px;
+  margin-left: 10px;
+  cursor: pointer;
+}
 .todo-create-wrapper {
   margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.todo-actions {
+  display: flex;
+  align-items: center;
 }
 .todo-create-input {
   font-size: 14px;
@@ -62,12 +73,17 @@
     max-width: 80%;
     margin-left: 40px;
   }
+  .todo-create-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .todo-create-input {
     appearance: none;
-    margin-bottom: 15px;
     border: 1px solid rgba(120, 130, 152, 0.25);
     /* Disable Auto Zoom in Input “Text” tag - Safari on iPhone */
     font-size: 16px;
+    margin-bottom: 15px;
+    min-width: 85%;
   }
   .todo-item button {
     padding: 4px 12px;

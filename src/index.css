@@ -32,3 +32,16 @@ button:focus, button:hover {
   box-shadow: 0 8px 12px 0 rgba(233,235,235,.16), 0 2px 8px 0 rgba(0,0,0,.08);
   text-decoration: none;
 }
+
+
+.btn-danger {
+  background-color: #fb6d77;
+  border-color: #fb6d77;
+  border-bottom-color: #e6636b;
+  color: #fff;
+}
+.btn-danger:focus, .btn-danger:hover {
+    background-color: #fa3b49;
+    border-color: #fa3b49;
+    color: #fff;
+}
