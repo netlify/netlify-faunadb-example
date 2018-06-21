@@ -186,9 +186,12 @@ export default class App extends Component {
     this.setState({
       todos: data.optimisticState
     }, () => {
+      setTimeout(() => {
+        this.closeModal()
+      }, 600)
+
       api.batchDelete(data.completedTodoIds).then(() => {
         console.log(`Batch removal complete`, data.completedTodoIds)
-        this.closeModal()
       }).catch((e) => {
         console.log('An API error occurred', e)
       })
