@@ -65,6 +65,7 @@
 }
 .desktop-toggle {
   margin-left: 10px;
+  margin-bottom: 3px;
 }
 
 @media (max-width: 768px) {
