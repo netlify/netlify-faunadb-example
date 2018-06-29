@@ -7,8 +7,12 @@ Example of using [FaunaDB](https://fauna.com/) with [Netlify functions](https://
 - [Setup & Run Locally](#setup--run-locally)
 - [TLDR; Quick Deploy](#tldr-quick-deploy)
 - [Tutorial](#tutorial)
-  * [1. Setup FaunaDB](#1-setup-faunadb)
-  * [2. Create a function](#2-create-a-function)
+  * [1. Create React app](#1-create-react-app)
+  * [2. Setup FaunaDB](#2-setup-faunadb)
+  * [3. Create a function](#3-create-a-function)
+    + [Anatomy of a Lambda function](#anatomy-of-a-lambda-function)
+    + [Setup](#setup)
+  * [3. Connect the function to the frontend app](#3-connect-the-function-to-the-frontend-app)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## About this application
@@ -67,12 +71,12 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 
 Lets run through how to create Netlify functions and connect them to our frontend application.
 
-0. Create React app
-1. Setup FaunaDB
-2. Create a function
-3. Connect the function to the frontend app
+1. Create React app
+2. Setup FaunaDB
+3. Create a function
+4. Connect the function to the frontend app
 
-### 0. Create React app
+### 1. Create React app
 
 1. Install create react app
 
@@ -94,7 +98,7 @@ Lets run through how to create Netlify functions and connect them to our fronten
     npm start
     ```
 
-### 1. Setup FaunaDB
+### 2. Setup FaunaDB
 
 First things first, we need to setup a FaunaDB account and get our API key we will use to scaffold out our todos database.
 
@@ -147,9 +151,37 @@ Head over to [https://app.fauna.com/sign-up](https://app.fauna.com/sign-up) to c
 
     If you login to the [FaunaDB dashboard](https://dashboard.fauna.com] you will see your todo database.
 
-### 2. Create a function
+### 3. Create a function
 
-Now, lets create a function for our app.
+Now, lets create a function for our app and wire that up to run locally.
+
+The functions in our project are going to live in a `/functions` folder. You can set this to whatever you'd like but we like the `/functions` convention.
+
+#### Anatomy of a Lambda function
+
+All AWS Lambda functions have the following signature:
+
+```js
+exports.handler = (event, context, callback) => {
+  // event has informatiom about the path, body, headers etc of the request
+  console.log('event', event)
+  // context has information about the lambda environment and user details
+  console.log('context', context)
+  // The callback ends the execution of the function and returns a reponse back to the caller
+  return callback(null, {
+    statusCode: 200,
+    body: JSON.stringify({
+      data: '⊂◉‿◉つ'
+    })
+  })
+}
+```
+
+We are going to use the `faunadb` npm package to connect to our Fauna Database and create an item
+
+#### Setup
+
+Lets rock and roll.
 
 1. Create a `./functions` directory with there
 
@@ -187,26 +219,59 @@ Now, lets create a function for our app.
 
     This will proxy requests we make to `/.netlify/functions` to our locally running function server at port 9000.
 
-3. Add the `build` and `serve` command to npm scripts.
+3. Add our `start` & `build` command to npm scripts in `package.json`
+
+    We are going to be using the `npm-run-all` npm module to run our frontend & backend in parallel in the same terminal window.
+
+    So install it!
 
     ```
+    npm install npm-run-all --save-dev
+    ```
+
+    **About `npm start`**
+
+    The `start:app` command will run `react-scripts start` to run our react app
+
+    The `start:server` command will run `netlify-lambda serve functions -c ./webpack.config.js` to run our function code locally. The `-c webpack-config` flag lets us set a custom webpack config to [fix a module issue](https://medium.com/@danbruder/typeerror-require-is-not-a-function-webpack-faunadb-6e785858d23b) with faunaDB module.
+
+    Running `npm start` in our terminal will run `npm-run-all --parallel start:app start:server` to fire them both up at once.
+
+    **About `npm build`**
+
+    The `build:app` command will run `react-scripts build` to run our react app
+
+    The `build:server` command will run `netlify-lambda build functions -c ./webpack.config.js` to run our function code locally.
+
+    Running `npm run build` in our terminal will run `npm-run-all --parallel build:**` to fire them both up at once.
+
+
+    **Your `package.json` should look like**
+
+    ```json
     {
       "name": "netlify-fauna",
       "scripts": {
+        # scaffold and setup FaunaDB
         "bootstrap": "node ./scripts/bootstrap-fauna-database.js",
-        "docs": "md-magic --path '**/*.md' --ignore 'node_modules'",
-        "checkForFaunaKey": "node ./scripts/check-for-fauna-key.js",
-        "start": "npm-run-all --parallel checkForFaunaKey start:app start:server",
+        # start the app and server
+        "start": "npm-run-all --parallel start:app start:server",
         "start:app": "react-scripts start",
         "start:server": "netlify-lambda serve functions -c ./webpack.config.js",
+        # before 'build' runs, run the 'bootstrap' command
         "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
+        # build the react app and the serverless functions
         "build": "npm-run-all --parallel build:**",
         "build:app": "react-scripts build",
         "build:functions": "netlify-lambda build functions -c ./webpack.config.js",
-        "test": "react-scripts test --env=jsdom"
+      },
+      "dependencies": {
+        "faunadb": "^0.2.2",
+        "react": "^16.4.0",
+        "react-dom": "^16.4.0",
+        "react-scripts": "1.1.4"
       },
       "devDependencies": {
-        "markdown-magic": "^0.1.21",
         "netlify-lambda": "^0.4.0",
         "npm-run-all": "^4.1.3"
       },
@@ -222,27 +287,19 @@ Now, lets create a function for our app.
 
     ```
 
-Lambda functions have this signature:
+4. Install FaunaDB and write the create function
 
-```js
-exports.handler = (event, context, callback) => {
-  // event has informatiom about the path, body, headers etc of the request
-  console.log('event', event)
-  // context has information about the lambda environment and user details
-  console.log('context', context)
-  // The callback ends the execution of the function and returns a reponse back to the caller
-  return callback(null, {
-    statusCode: 200,
-    body: JSON.stringify({
-      data: '⊂◉‿◉つ'
-    })
-  })
-}
-```
+    We are going to be using the `faunadb` npm module to call into our todos index in FaunaDB.
 
-We are going to be using the FaunaDB sdk to call into our todos index.
+    So install it in the project
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/todos-create.js) -->
+    ```bash
+    npm i faunadb --save
+    ```
+
+    Then create a new function file in `/functions` called `todos-create.js`
+
+    <!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/todos-create.js) -->
 <!-- The below code snippet is automatically added from ./functions/todos-create.js -->
 ```js
 /* Import faunaDB sdk */
@@ -279,3 +336,31 @@ exports.handler = (event, context, callback) => {
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ### 3. Connect the function to the frontend app
+
+Inside of your react app. You can now wire up the
+
+```js
+// Function using fetch to POST to our API endpoint
+function createTodo(data) {
+  console.log('run new create function')
+  return fetch('/.netlify/functions/todos-create', {
+    body: JSON.stringify(data),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+// Todo data
+const myTodo = {
+  title: 'My todo title',
+  completed: false,
+}
+
+// create it!
+createTodo(myTodo).then(() => {
+
+}).catch((error) => {
+  console.log('API error', error)
+})
+```
