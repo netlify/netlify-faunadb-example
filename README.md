@@ -67,9 +67,32 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 
 Lets run through how to create Netlify functions and connect them to our frontend application.
 
-1. Step faunaDB
-2. Create /functions/todos-create.js
-3.
+0. Create React app
+1. Setup FaunaDB
+2. Create a function
+3. Connect the function to the frontend app
+
+### 0. Create React app
+
+1. Install create react app
+
+    ```bash
+    npm install create-react-app -g
+    ```
+2. Create the react app!
+
+    ```bash
+    create-react-app my-app
+    ```
+
+3. The react app is now setup!
+
+    ```bash
+    # change directories into my-app
+    cd my-app
+    # start the app
+    npm start
+    ```
 
 ### 1. Setup FaunaDB
 
@@ -93,8 +116,111 @@ Head over to [https://app.fauna.com/sign-up](https://app.fauna.com/sign-up) to c
 
     ![Copy API key for future use](https://user-images.githubusercontent.com/532272/42112934-6d6499e0-7b9e-11e8-81ea-be57249895b1.png)
 
+5. Create your FaunaDB database
+
+    Set the FaunaDB API key locally in your terminal
+
+    ```bash
+    # on mac
+    export FAUNADB_SECRET=YourFaunaDBKeyHere
+    # on windows
+    set FAUNADB_SECRET=YourFaunaDBKeyHere
+    ```
+
+    Add the [/scripts/bootstrap-fauna-database.js](https://github.com/netlify/netlify-faunadb-example/blob/f965df497f0de507c2dfdb1a8a32a81bbd939314/scripts/bootstrap-fauna-database.js) to the root directory of the project. This is an idempotent script that you can run 1 million times and have the same result (one todos database)
+
+    Next up, add the bootstrap command to npm scripts in your `package.json` file
+
+    ```json
+    {
+      "scripts": {
+        "bootstrap": "node ./scripts/bootstrap-fauna-database.js"
+      }
+    }
+    ```
+
+    Now we can run the `bootstrap` command to setup our Fauna database in our FaunaDB account.
+
+    ```bash
+    npm run bootstrap
+    ```
+
+    If you login to the [FaunaDB dashboard](https://dashboard.fauna.com] you will see your todo database.
+
 ### 2. Create a function
 
+Now, lets create a function for our app.
+
+1. Create a `./functions` directory with there
+
+    ```bash
+    # make functions directory
+    mdkir functions
+    ```
+
+2. Install `netlify-lambda`
+
+    [Netlify lambda](https://github.com/netlify/netlify-lambda) is a tool for locally emulating the serverless function for development and for bundling our serverless function with third party npm modules (if we are using those)
+
+    ```
+    npm i netlify-lambda --save-dev
+    ```
+
+    To simulate our function endpoints locally, we need to setup a [proxy](https://github.com/netlify/create-react-app-lambda/blob/master/package.json#L19-L26) for webpack to use.
+
+    In `package.json` add:
+
+    ```json
+    {
+      "name": "react-lambda",
+      ...
+      "proxy": {
+        "/.netlify/functions": {
+          "target": "http://localhost:9000",
+          "pathRewrite": {
+            "^/\\.netlify/functions": ""
+          }
+        }
+      }
+    }
+    ```
+
+    This will proxy requests we make to `/.netlify/functions` to our locally running function server at port 9000.
+
+3. Add the `build` and `serve` command to npm scripts.
+
+    ```
+    {
+      "name": "netlify-fauna",
+      "scripts": {
+        "bootstrap": "node ./scripts/bootstrap-fauna-database.js",
+        "docs": "md-magic --path '**/*.md' --ignore 'node_modules'",
+        "checkForFaunaKey": "node ./scripts/check-for-fauna-key.js",
+        "start": "npm-run-all --parallel checkForFaunaKey start:app start:server",
+        "start:app": "react-scripts start",
+        "start:server": "netlify-lambda serve functions -c ./webpack.config.js",
+        "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
+        "build": "npm-run-all --parallel build:**",
+        "build:app": "react-scripts build",
+        "build:functions": "netlify-lambda build functions -c ./webpack.config.js",
+        "test": "react-scripts test --env=jsdom"
+      },
+      "devDependencies": {
+        "markdown-magic": "^0.1.21",
+        "netlify-lambda": "^0.4.0",
+        "npm-run-all": "^4.1.3"
+      },
+      "proxy": {
+        "/.netlify/functions": {
+          "target": "http://localhost:9000",
+          "pathRewrite": {
+            "^/\\.netlify/functions": ""
+          }
+        }
+      }
+    }
+
+    ```
 
 Lambda functions have this signature:
 
@@ -151,3 +277,5 @@ exports.handler = (event, context, callback) => {
 }
 ```
 <!-- AUTO-GENERATED-CONTENT:END -->
+
+### 3. Connect the function to the frontend app
