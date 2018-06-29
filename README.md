@@ -1,19 +1,14 @@
-# Netlify + FaunaDB
+<h1>Netlify + FaunaDB &nbsp;&nbsp;&nbsp;<a href="https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example"><img src="https://www.netlify.com/img/deploy/button.svg" title='click to deploy this project to Netlify'></a>
+</h1>
 
 Example of using [FaunaDB](https://fauna.com/) with [Netlify functions](https://www.netlify.com/docs/functions/)
 
-Deploy this app with one-click via this link:
-
-<!-- Markdown snippet -->
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
-
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
-- [About this application](#about-this-application)
-- [Install](#install)
+undefined [Setup & Run Locally](#setup--run-locally)
 - [TLDR; Quick Deploy](#tldr-quick-deploy)
 - [Tutorial](#tutorial)
-  * [1. Setup FaunaDB](#1-setup-faunadb)
-  * [2. Create a function](#2-create-a-function)
+- [1. Setup FaunaDB](#1-setup-faunadb)
+- [2. Create a function](#2-create-a-function)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## About this application
