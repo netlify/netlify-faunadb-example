@@ -65,7 +65,7 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 
 ## Tutorial
 
-First lets create the
+Lets run through how to create Netlify functions and connect them to our frontend application.
 
 1. Step faunaDB
 2. Create /functions/todos-create.js
@@ -77,9 +77,21 @@ First things first, we need to setup a FaunaDB account and get our API key we wi
 
 Head over to [https://app.fauna.com/sign-up](https://app.fauna.com/sign-up) to create a free Fauna Account.
 
-Then login, and create your API Key
+1. **Sign up**
 
-[IMAGE]
+    ![Sign up for Fauna](https://user-images.githubusercontent.com/532272/42112825-ff5d7804-7b9d-11e8-846b-54861fe88f97.png)
+
+2. **Create a key**
+
+    ![Create a fauna key](https://user-images.githubusercontent.com/532272/42112862-24b1cd9e-7b9e-11e8-8b77-7d2f0a981c65.png)
+
+3. **Name your key and create**
+
+    ![Name the fauna key and create](https://user-images.githubusercontent.com/532272/42112890-4653439c-7b9e-11e8-9573-361843c590aa.png)
+
+4. **Copy this API key for later use, or [Deploy to Netlify Button](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example) and plugin this API key.**
+
+    ![Copy API key for future use](https://user-images.githubusercontent.com/532272/42112934-6d6499e0-7b9e-11e8-81ea-be57249895b1.png)
 
 ### 2. Create a function
 
