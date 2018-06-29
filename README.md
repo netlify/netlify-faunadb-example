@@ -252,15 +252,15 @@ Lets rock and roll.
     {
       "name": "netlify-fauna",
       "scripts": {
-        # scaffold and setup FaunaDB
+        "ABOUT-bootstrap-command": "#👇 scaffold and setup FaunaDB #",
         "bootstrap": "node ./scripts/bootstrap-fauna-database.js",
-        # start the app and server
+        "ABOUT-start-command": "#👇 start the app and server #",
         "start": "npm-run-all --parallel start:app start:server",
         "start:app": "react-scripts start",
         "start:server": "netlify-lambda serve functions -c ./webpack.config.js",
-        # before 'build' runs, run the 'bootstrap' command
+        "ABOUT-prebuild-command": "#👇 before 'build' runs, run the 'bootstrap' command #",
         "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
-        # build the react app and the serverless functions
+        "ABOUT-build-command": "#👇 build the react app and the serverless functions #",
         "build": "npm-run-all --parallel build:**",
         "build:app": "react-scripts build",
         "build:functions": "netlify-lambda build functions -c ./webpack.config.js",
@@ -300,44 +300,44 @@ Lets rock and roll.
     Then create a new function file in `/functions` called `todos-create.js`
 
     <!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/todos-create.js) -->
-<!-- The below code snippet is automatically added from ./functions/todos-create.js -->
-```js
-/* Import faunaDB sdk */
-import faunadb from 'faunadb'
+    <!-- The below code snippet is automatically added from ./functions/todos-create.js -->
+    ```js
+    /* Import faunaDB sdk */
+    import faunadb from 'faunadb'
 
-const q = faunadb.query
-const client = new faunadb.Client({
-  secret: process.env.FAUNADB_SECRET
-})
+    const q = faunadb.query
+    const client = new faunadb.Client({
+      secret: process.env.FAUNADB_SECRET
+    })
 
-exports.handler = (event, context, callback) => {
-  const data = JSON.parse(event.body)
-  console.log("Function `todo-create` invoked", data)
-  const todoItem = {
-    data: data
-  }
-  /* construct the fauna query */
-  return client.query(q.Create(q.Ref("classes/todos"), todoItem))
-  .then((response) => {
-    console.log("success", response)
-    return callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(response)
-    })
-  }).catch((error) => {
-    console.log("error", error)
-    return callback(null, {
-      statusCode: 400,
-      body: JSON.stringify(error)
-    })
-  })
-}
-```
-<!-- AUTO-GENERATED-CONTENT:END -->
+    exports.handler = (event, context, callback) => {
+      const data = JSON.parse(event.body)
+      console.log("Function `todo-create` invoked", data)
+      const todoItem = {
+        data: data
+      }
+      /* construct the fauna query */
+      return client.query(q.Create(q.Ref("classes/todos"), todoItem))
+      .then((response) => {
+        console.log("success", response)
+        return callback(null, {
+          statusCode: 200,
+          body: JSON.stringify(response)
+        })
+      }).catch((error) => {
+        console.log("error", error)
+        return callback(null, {
+          statusCode: 400,
+          body: JSON.stringify(error)
+        })
+      })
+    }
+    ```
+    <!-- AUTO-GENERATED-CONTENT:END -->
 
 ### 3. Connect the function to the frontend app
 
-Inside of your react app. You can now wire up the
+Inside of your react app. You can now wire up the `/.netlify/functions/todos-create` endpoint to an AJAX request
 
 ```js
 // Function using fetch to POST to our API endpoint
