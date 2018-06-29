@@ -10,6 +10,7 @@ Deploy this app with one-click via this link:
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
 - [About this application](#about-this-application)
 - [Install](#install)
+- [TLDR; Quick Deploy](#tldr-quick-deploy)
 - [Tutorial](#tutorial)
   * [1. Setup FaunaDB](#1-setup-faunadb)
   * [2. Create a function](#2-create-a-function)
@@ -21,7 +22,7 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 
 ![faunadb netlify](https://user-images.githubusercontent.com/532272/42067494-5c4c2b94-7afb-11e8-91b4-0bef66d85584.png)
 
-## Install
+## Setup & Run Locally
 
 1. Clone down the repository
 
@@ -60,8 +61,10 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 ## TLDR; Quick Deploy
 
 1. [Sign up for free FaunaDB account](https://app.fauna.com/sign-up),
-2. Grab your [faunaDB API key](https://dashboard.fauna.com/db/keys)
-3. Click [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
+2. Grab your [FaunaDB API key](https://dashboard.fauna.com/db/keys)
+3. Click the [Deploy to Netlify Button](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
 
 ![setup steps](https://user-images.githubusercontent.com/532272/42069927-28e1c436-7b09-11e8-96e9-272987fc9e15.gif)
 
