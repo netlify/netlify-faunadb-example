@@ -7,6 +7,14 @@ Deploy this app with one-click via this link:
 <!-- Markdown snippet -->
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
 
+<!-- AUTO-GENERATED-CONTENT:START (TOC) -->
+- [About this application](#about-this-application)
+- [Install](#install)
+- [Tutorial](#tutorial)
+  * [1. Setup FaunaDB](#1-setup-faunadb)
+  * [2. Create a function](#2-create-a-function)
+<!-- AUTO-GENERATED-CONTENT:END -->
+
 ## About this application
 
 This application is using [React](https://reactjs.org/) for the frontend, [Netlify Functions](https://www.netlify.com/docs/functions/) for API calls, and [FaunaDB](https://fauna.com/) as the backing database.
@@ -48,3 +56,88 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
     ```bash
     npm start
     ```
+
+## TLDR; Quick Deploy
+
+After [signing up for Fauna](https://app.fauna.com/sign-up), click the deploy to Netlify button
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
+
+![setup steps](https://user-images.githubusercontent.com/532272/42069927-28e1c436-7b09-11e8-96e9-272987fc9e15.gif)
+
+## Tutorial
+
+First lets create the
+
+1. Step faunaDB
+2. Create /functions/todos-create.js
+3.
+
+### 1. Setup FaunaDB
+
+First things first, we need to setup a FaunaDB account and get our API key we will use to scaffold out our todos database.
+
+Head over to [https://app.fauna.com/sign-up](https://app.fauna.com/sign-up) to create a free Fauna Account.
+
+Then login, and create your API Key
+
+[IMAGE]
+
+### 2. Create a function
+
+
+Lambda functions have this signature:
+
+```js
+exports.handler = (event, context, callback) => {
+  // event has informatiom about the path, body, headers etc of the request
+  console.log('event', event)
+  // context has information about the lambda environment and user details
+  console.log('context', context)
+  // The callback ends the execution of the function and returns a reponse back to the caller
+  return callback(null, {
+    statusCode: 200,
+    body: JSON.stringify({
+      data: '⊂◉‿◉つ'
+    })
+  })
+}
+```
+
+We are going to be using the FaunaDB sdk to call into our todos index.
+
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/todos-create.js) -->
+<!-- The below code snippet is automatically added from ./functions/todos-create.js -->
+```js
+/* Import faunaDB sdk */
+import faunadb from 'faunadb'
+
+const q = faunadb.query
+const client = new faunadb.Client({
+  secret: process.env.FAUNADB_SECRET
+})
+
+exports.handler = (event, context, callback) => {
+  const data = JSON.parse(event.body)
+  console.log("Function `todo-create` invoked", data)
+  const todoItem = {
+    data: data
+  }
+  /* construct the fauna query */
+  return client.query(q.Create(q.Ref("classes/todos"), todoItem))
+  .then((response) => {
+    console.log("success", response)
+    return callback(null, {
+      statusCode: 200,
+      body: JSON.stringify(response)
+    })
+  }).catch((error) => {
+    console.log("error", error)
+    return callback(null, {
+      statusCode: 400,
+      body: JSON.stringify(error)
+    })
+  })
+}
+```
+<!-- AUTO-GENERATED-CONTENT:END -->
