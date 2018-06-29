@@ -59,9 +59,9 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 
 ## TLDR; Quick Deploy
 
-After [signing up for Fauna](https://app.fauna.com/sign-up), click the deploy to Netlify button
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
+1. [Sign up for free FaunaDB account](https://app.fauna.com/sign-up),
+2. Grab your [faunaDB API key](https://dashboard.fauna.com/db/keys)
+3. Click [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
 
 ![setup steps](https://user-images.githubusercontent.com/532272/42069927-28e1c436-7b09-11e8-96e9-272987fc9e15.gif)
 
