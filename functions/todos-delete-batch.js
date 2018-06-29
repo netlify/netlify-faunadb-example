@@ -1,3 +1,4 @@
+/* Import faunaDB sdk */
 import faunadb from 'faunadb'
 import getId from './utils/getId'
 

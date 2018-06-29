@@ -1,3 +1,4 @@
+/* Import faunaDB sdk */
 import faunadb from 'faunadb'
 
 const q = faunadb.query
@@ -8,7 +9,11 @@ const client = new faunadb.Client({
 exports.handler = (event, context, callback) => {
   const data = JSON.parse(event.body)
   console.log("Function `todo-create` invoked", data)
-  return client.query(q.Create(q.Ref("classes/todos"), {data}))
+  const todoItem = {
+    data: data
+  }
+  /* construct the fauna query */
+  return client.query(q.Create(q.Ref("classes/todos"), todoItem))
   .then((response) => {
     console.log("success", response)
     return callback(null, {

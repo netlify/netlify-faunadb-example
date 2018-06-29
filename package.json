@@ -10,10 +10,11 @@
   },
   "scripts": {
     "bootstrap": "node ./scripts/bootstrap-fauna-database.js",
+    "docs": "md-magic --path '**/*.md' --ignore 'node_modules'",
     "checkForFaunaKey": "node ./scripts/check-for-fauna-key.js",
-    "start": "npm-run-all --parallel checkForFaunaKey startApp startServer",
-    "startApp": "react-scripts start",
-    "startServer": "netlify-lambda serve functions -c ./webpack.config.js",
+    "start": "npm-run-all --parallel checkForFaunaKey start:app start:server",
+    "start:app": "react-scripts start",
+    "start:server": "netlify-lambda serve functions -c ./webpack.config.js",
     "prebuild": "echo 'setup faunaDB' && npm run bootstrap",
     "build": "npm-run-all --parallel build:**",
     "build:app": "react-scripts build",
@@ -21,6 +22,7 @@
     "test": "react-scripts test --env=jsdom"
   },
   "devDependencies": {
+    "markdown-magic": "^0.1.22",
     "netlify-lambda": "^0.4.0",
     "npm-run-all": "^4.1.3"
   },
