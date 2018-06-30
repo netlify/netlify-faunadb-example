@@ -1,7 +1,6 @@
 /* Api methods to call /functions */
 
 const create = (data) => {
-  console.log('run new create')
   return fetch('/.netlify/functions/todos-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -12,7 +11,6 @@ const create = (data) => {
 
 const readAll = () => {
   return fetch('/.netlify/functions/todos-read-all').then((response) => {
-    console.log(response)
     return response.json()
   })
 }

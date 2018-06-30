@@ -5,6 +5,7 @@ import SettingsMenu from './components/SettingsMenu'
 import SettingsIcon from './components/SettingsIcon'
 import api from './utils/api'
 import sortByDate from './utils/sortByDate'
+import isLocalHost from './utils/isLocalHost'
 import './App.css'
 
 export default class App extends Component {
@@ -15,6 +16,15 @@ export default class App extends Component {
   componentDidMount() {
     // Fetch all todos
     api.readAll().then((todos) => {
+      if (todos.message === 'unauthorized') {
+        if (isLocalHost()) {
+          alert('FaunaDB key is not unauthorized. Make sure you set it in terminal session where you ran `npm start`. Visit http://bit.ly/set-fauna-key for more info')
+        } else {
+          alert('FaunaDB key is not unauthorized. Verify the key `FAUNADB_SECRET` set in Netlify enviroment variables is correct')
+        }
+        return false
+      }
+
       console.log('all todos', todos)
       this.setState({
         todos: todos
