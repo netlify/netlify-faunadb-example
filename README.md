@@ -7,11 +7,12 @@ Example of using [FaunaDB](https://fauna.com/) with [Netlify functions](https://
 - [Setup & Run Locally](#setup--run-locally)
 - [TLDR; Quick Deploy](#tldr-quick-deploy)
 - [Tutorial](#tutorial)
+  * [Background](#background)
   * [1. Create React app](#1-create-react-app)
   * [2. Setup FaunaDB](#2-setup-faunadb)
   * [3. Create a function](#3-create-a-function)
     + [Anatomy of a Lambda function](#anatomy-of-a-lambda-function)
-    + [Setup](#setup)
+    + [Setting up functions for local development](#setting-up-functions-for-local-development)
   * [4. Connect the function to the frontend app](#4-connect-the-function-to-the-frontend-app)
   * [5. Finishing the Backend Functions](#5-finishing-the-backend-functions)
   * [Wrapping Up](#wrapping-up)
@@ -71,14 +72,23 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 
 ## Tutorial
 
-Lets run through how to create Netlify functions and connect them to our frontend application.
+### Background
 
-1. Create React app
-2. Setup FaunaDB
-3. Create a function
-4. Connect the function to the frontend app
+This application is using [React](https://reactjs.org/) for the frontend, [Netlify Functions](https://www.netlify.com/docs/functions/) for API calls, and [FaunaDB](https://fauna.com/) as the backing database.
+
+We are going to explore how to get up and running with netlify functions and how to deploy your own serverless backend.
+
+So, lets dive right in!
 
 ### 1. Create React app
+
+We are using React for this demo app, but you can use whatever you want to manage the frontend.
+
+Into VueJS? Awesome use that.
+
+Miss the days of jQuery? Righto jQuery away!
+
+Fan of vanillaJS? By all means, have at it!
 
 1. Install create react app
 
@@ -102,7 +112,9 @@ Lets run through how to create Netlify functions and connect them to our fronten
 
 ### 2. Setup FaunaDB
 
-First things first, we need to setup a FaunaDB account and get our API key we will use to scaffold out our todos database.
+We are using FaunaDB to hold and store all of our todo data.
+
+So setup a FaunaDB account and get our API key we will use to scaffold out our todos database.
 
 Head over to [https://app.fauna.com/sign-up](https://app.fauna.com/sign-up) to create a free Fauna Account.
 
@@ -181,7 +193,7 @@ exports.handler = (event, context, callback) => {
 
 We are going to use the `faunadb` npm package to connect to our Fauna Database and create an item
 
-#### Setup
+#### Setting up functions for local development
 
 Lets rock and roll.
 
@@ -378,6 +390,8 @@ Requests to `/.netlify/function/[Function-File-Name]` will work seamlessly on lo
 
 
 We will be skipping over the rest of the frontend parts of the app because you can use whatever framework you'd like to build your application.
+
+All the demo React frontend code is [available here](https://github.com/netlify/netlify-faunadb-example/tree/17a9ba47a8b1b2408b68e793fba4c5fd17bf85da/src)
 
 ### 5. Finishing the Backend Functions
 
@@ -600,4 +614,4 @@ This example can be improved with users/authentication. Next steps to build out 
 - Add in the concept of users for everyone to have their own todo list
 - Wire up authentication using [Netlify Identity](https://identity.netlify.com/) JWTs
 - Add in due dates to todos and wire up Functions to notify users via email/SMS
-- File for IPO? 
+- File for IPO?
