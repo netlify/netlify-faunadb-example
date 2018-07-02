@@ -599,6 +599,67 @@ So far we have created our `todo-create` function done and we've seen how we mak
     ```
     <!-- AUTO-GENERATED-CONTENT:END -->
 
+After we deploy all these functions, we will be able to call them from our frontend code with these fetch calls:
+
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./src/utils/api.js&header=/* Frontend code from src/utils/api.js */) -->
+<!-- The below code snippet is automatically added from ./src/utils/api.js -->
+```js
+/* Frontend code from src/utils/api.js */
+/* Api methods to call /functions */
+
+const create = (data) => {
+  return fetch('/.netlify/functions/todos-create', {
+    body: JSON.stringify(data),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const readAll = () => {
+  return fetch('/.netlify/functions/todos-read-all').then((response) => {
+    return response.json()
+  })
+}
+
+const update = (todoId, data) => {
+  return fetch(`/.netlify/functions/todos-update/${todoId}`, {
+    body: JSON.stringify(data),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const deleteTodo = (todoId) => {
+  return fetch(`/.netlify/functions/todos-delete/${todoId}`, {
+    method: 'POST',
+  }).then(response => {
+    return response.json()
+  })
+}
+
+const batchDeleteTodo = (todoIds) => {
+  return fetch(`/.netlify/functions/todos-delete-batch`, {
+    body: JSON.stringify({
+      ids: todoIds
+    }),
+    method: 'POST'
+  }).then(response => {
+    return response.json()
+  })
+}
+
+export default {
+  create: create,
+  readAll: readAll,
+  update: update,
+  delete: deleteTodo,
+  batchDelete: batchDeleteTodo
+}
+```
+<!-- AUTO-GENERATED-CONTENT:END -->
+
 ### Wrapping Up
 
 I hope you have enjoyed this tutorial on building your own CRUD API using Netlify serverless functions and FaunaDB.
