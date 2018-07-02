@@ -1,4 +1,3 @@
-/* Import faunaDB sdk */
 import faunadb from 'faunadb'
 
 const q = faunadb.query

@@ -120,7 +120,7 @@ Head over to [https://app.fauna.com/sign-up](https://app.fauna.com/sign-up) to c
 
     ![Copy API key for future use](https://user-images.githubusercontent.com/532272/42112934-6d6499e0-7b9e-11e8-81ea-be57249895b1.png)
 
-5. Create your FaunaDB database
+5. **Create your FaunaDB database**
 
     Set the FaunaDB API key locally in your terminal
 
@@ -183,14 +183,14 @@ We are going to use the `faunadb` npm package to connect to our Fauna Database a
 
 Lets rock and roll.
 
-1. Create a `./functions` directory with there
+1. **Create a `./functions` directory**
 
     ```bash
     # make functions directory
     mdkir functions
     ```
 
-2. Install `netlify-lambda`
+2. **Install `netlify-lambda`**
 
     [Netlify lambda](https://github.com/netlify/netlify-lambda) is a tool for locally emulating the serverless function for development and for bundling our serverless function with third party npm modules (if we are using those)
 
@@ -219,7 +219,9 @@ Lets rock and roll.
 
     This will proxy requests we make to `/.netlify/functions` to our locally running function server at port 9000.
 
-3. Add our `start` & `build` command to npm scripts in `package.json`
+3. **Add our `start` & `build` commands**
+
+    Lets go ahead and add our `start` & `build` command to npm scripts in `package.json`. These will let us running things locally and give a command for netlify to run to build our app & functions when we are ready to deploy.
 
     We are going to be using the `npm-run-all` npm module to run our frontend & backend in parallel in the same terminal window.
 
@@ -287,7 +289,7 @@ Lets rock and roll.
 
     ```
 
-4. Install FaunaDB and write the create function
+4. **Install FaunaDB and write the create function**
 
     We are going to be using the `faunadb` npm module to call into our todos index in FaunaDB.
 
@@ -299,18 +301,21 @@ Lets rock and roll.
 
     Then create a new function file in `/functions` called `todos-create.js`
 
-    <!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/todos-create.js) -->
+    <!-- AUTO-GENERATED-CONTENT:START (CODE:src=./functions/todos-create.js&header=/* code from functions/todos-create.js */) -->
     <!-- The below code snippet is automatically added from ./functions/todos-create.js -->
     ```js
-    /* Import faunaDB sdk */
-    import faunadb from 'faunadb'
-
+    /* code from functions/todos-create.js */
+    import faunadb from 'faunadb' /* Import faunaDB sdk */
+    
+    /* configure faunaDB Client with our secret */
     const q = faunadb.query
     const client = new faunadb.Client({
       secret: process.env.FAUNADB_SECRET
     })
-
+    
+    /* export our lambda function as named "handler" export */
     exports.handler = (event, context, callback) => {
+      /* parse the string body into a useable JS object */
       const data = JSON.parse(event.body)
       console.log("Function `todo-create` invoked", data)
       const todoItem = {
@@ -320,12 +325,14 @@ Lets rock and roll.
       return client.query(q.Create(q.Ref("classes/todos"), todoItem))
       .then((response) => {
         console.log("success", response)
+        /* Success! return the response with statusCode 200 */
         return callback(null, {
           statusCode: 200,
           body: JSON.stringify(response)
         })
       }).catch((error) => {
         console.log("error", error)
+        /* Error! return the error with statusCode 400 */
         return callback(null, {
           statusCode: 400,
           body: JSON.stringify(error)
@@ -337,12 +344,11 @@ Lets rock and roll.
 
 ### 3. Connect the function to the frontend app
 
-Inside of your react app. You can now wire up the `/.netlify/functions/todos-create` endpoint to an AJAX request
+Inside of the react app, we can now wire up the `/.netlify/functions/todos-create` endpoint to an AJAX request.
 
 ```js
 // Function using fetch to POST to our API endpoint
 function createTodo(data) {
-  console.log('run new create function')
   return fetch('/.netlify/functions/todos-create', {
     body: JSON.stringify(data),
     method: 'POST'
@@ -358,8 +364,9 @@ const myTodo = {
 }
 
 // create it!
-createTodo(myTodo).then(() => {
-
+createTodo(myTodo).then((response) => {
+  console.log('API response', response)
+  // set app state
 }).catch((error) => {
   console.log('API error', error)
 })

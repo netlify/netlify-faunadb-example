@@ -22,7 +22,7 @@
     "test": "react-scripts test --env=jsdom"
   },
   "devDependencies": {
-    "markdown-magic": "^0.1.22",
+    "markdown-magic": "^0.1.23",
     "netlify-lambda": "^0.4.0",
     "npm-run-all": "^4.1.3"
   },
