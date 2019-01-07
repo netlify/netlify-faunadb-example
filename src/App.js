@@ -324,5 +324,5 @@ function getTodoId(todo) {
   if (!todo.ref) {
     return null
   }
-  return todo.ref['@ref'].split('/').pop()
+  return todo.ref['@ref'].id
 }
