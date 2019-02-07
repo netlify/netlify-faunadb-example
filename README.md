@@ -163,7 +163,7 @@ Head over to [https://app.fauna.com/sign-up](https://app.fauna.com/sign-up) to c
     npm run bootstrap
     ```
 
-    If you login to the [FaunaDB dashboard](https://dashboard.fauna.com] you will see your todo database.
+    If you login to the [FaunaDB dashboard](https://dashboard.fauna.com) you will see your todo database.
 
 ### 3. Create a function
 
