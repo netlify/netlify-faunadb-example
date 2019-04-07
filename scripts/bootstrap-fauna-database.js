@@ -8,11 +8,11 @@ const q = faunadb.query
 console.log(chalk.cyan('Creating your FaunaDB Database...\n'))
 
 // 1. Check for required enviroment variables
-if (!process.env.FAUNADB_SECRET) {
-  console.log(chalk.yellow('Required FAUNADB_SECRET enviroment variable not found.'))
+if (!process.env.FAUNADB_SERVER_SECRET) {
+  console.log(chalk.yellow('Required FAUNADB_SERVER_SECRET enviroment variable not found.'))
   if (insideNetlify) {
     console.log(`Visit https://app.netlify.com/sites/YOUR_SITE_HERE/settings/deploys`)
-    console.log('and set a `FAUNADB_SECRET` value in the "Build environment variables" section')
+    console.log('and set a `FAUNADB_SERVER_SECRET` value in the "Build environment variables" section')
     process.exit(1)
   }
   // Local machine warning
@@ -21,20 +21,23 @@ if (!process.env.FAUNADB_SECRET) {
     console.log('You can create fauna DB keys here: https://dashboard.fauna.com/db/keys')
     console.log()
     ask(chalk.bold('Enter your faunaDB server key'), (err, answer) => {
+      if (err) {
+        console.log('err', err)
+      }
       if (!answer) {
         console.log('Please supply a faunaDB server key')
         process.exit(1)
       }
-      createFaunaDB(process.env.FAUNADB_SECRET).then(() => {
+      createFaunaDB(process.env.FAUNADB_SERVER_SECRET).then(() => {
         console.log('Database created')
       })
-    });
+    })
   }
 }
 
 // Has var. Do the thing
-if (process.env.FAUNADB_SECRET) {
-  createFaunaDB(process.env.FAUNADB_SECRET).then(() => {
+if (process.env.FAUNADB_SERVER_SECRET) {
+  createFaunaDB(process.env.FAUNADB_SERVER_SECRET).then(() => {
     console.log('Database created')
   })
 }
@@ -44,15 +47,15 @@ function createFaunaDB(key) {
   console.log('Create the database!')
   const client = new faunadb.Client({
     secret: key
-  });
+  })
 
   /* Based on your requirements, change the schema here */
-  return client.query(q.Create(q.Ref("classes"), { name: "todos" }))
-    .then(()=>{
+  return client.query(q.Create(q.Ref('classes'), { name: 'todos' }))
+    .then(() => {
       return client.query(
-        q.Create(q.Ref("indexes"), {
-          name: "all_todos",
-          source: q.Ref("classes/todos")
+        q.Create(q.Ref('indexes'), {
+          name: 'all_todos',
+          source: q.Ref('classes/todos')
         }))
     }).catch((e) => {
       // Database already exists
@@ -62,7 +65,6 @@ function createFaunaDB(key) {
       }
     })
 }
-
 
 /* util methods */
 
@@ -79,9 +81,9 @@ function ask(question, callback) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
-  });
+  })
   rl.question(question + '\n', function(answer) {
-    rl.close();
-    callback(null, answer);
-  });
+    rl.close()
+    callback(null, answer)
+  })
 }
