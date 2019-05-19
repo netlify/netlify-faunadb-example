@@ -108,6 +108,8 @@ Fan of vanillaJS? By all means, have at it!
     cd my-app
     # start the app
     npm start
+    # install faunadb
+    npm install faunadb
     ```
 
 ### 2. Setup FaunaDB
