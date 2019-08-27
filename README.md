@@ -147,7 +147,7 @@ Head over to [https://app.fauna.com/sign-up](https://app.fauna.com/sign-up) to c
     set FAUNADB_SERVER_SECRET=YourFaunaDBKeyHere
     ```
 
-    Add the [/scripts/bootstrap-fauna-database.js](https://github.com/netlify/netlify-faunadb-example/blob/f965df497f0de507c2dfdb1a8a32a81bbd939314/scripts/bootstrap-fauna-database.js) to the root directory of the project. This is an idempotent script that you can run 1 million times and have the same result (one todos database)
+    Add the [/scripts/bootstrap-fauna-database.js](https://github.com/netlify/netlify-faunadb-example/blob/271721bbc0f1ad7980824a896e000be510763369/scripts/bootstrap-fauna-database.js) to the root directory of the project. This is an idempotent script that you can run 1 million times and have the same result (one todos database)
 
     Next up, add the bootstrap command to npm scripts in your `package.json` file
 
