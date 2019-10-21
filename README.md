@@ -178,18 +178,18 @@ The functions in our project are going to live in a `/functions` folder. You can
 All AWS Lambda functions have the following signature:
 
 ```js
-exports.handler = (event, context, callback) => {
+exports.handler = (event, context) => {
   // "event" has informatiom about the path, body, headers etc of the request
   console.log('event', event)
   // "context" has information about the lambda environment and user details
   console.log('context', context)
-  // The "callback" ends the execution of the function and returns a reponse back to the caller
-  return callback(null, {
+  // Returns a response back to the caller
+  return {
     statusCode: 200,
     body: JSON.stringify({
       data: '⊂◉‿◉つ'
     })
-  })
+  }
 }
 ```
 We are going to use the `faunadb` npm package to connect to our Fauna Database and create an item
