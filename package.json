@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "faunadb": "^2.6.1",
+    "markdown-magic": "^1.0.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"
@@ -17,7 +18,6 @@
     "build": "react-scripts build"
   },
   "devDependencies": {
-    "markdown-magic": "^0.1.25",
     "netlify-cli": "^2.19.0"
   },
   "browserslist": [
