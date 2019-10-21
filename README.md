@@ -1,11 +1,11 @@
-# Netlify + FaunaDB &nbsp;&nbsp;&nbsp;<a href="https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example"><img src="https://www.netlify.com/img/deploy/button.svg"></a>
+# Netlify + FaunaDB &nbsp;&nbsp;&nbsp;<a href="https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example&stack=fauna"><img src="https://www.netlify.com/img/deploy/button.svg"></a>
 
 Example of using [FaunaDB](https://fauna.com/) with [Netlify functions](https://www.netlify.com/docs/functions/)
 
 <!-- AUTO-GENERATED-CONTENT:START (TOC) -->
 - [About this application](#about-this-application)
+- [Deploy with one click](#deploy-with-one-click)
 - [Setup & Run Locally](#setup--run-locally)
-- [TLDR; Quick Deploy](#tldr-quick-deploy)
 - [Tutorial](#tutorial)
   * [Background](#background)
   * [1. Create React app](#1-create-react-app)
@@ -25,6 +25,12 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 
 ![faunadb netlify](https://user-images.githubusercontent.com/532272/42067494-5c4c2b94-7afb-11e8-91b4-0bef66d85584.png)
 
+## Deploy with one click
+
+Click the [Deploy to Netlify Button](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/fauna-one-click&stack=fauna)
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example&stack=fauna)
+
 ## Setup & Run Locally
 
 1. Clone down the repository
@@ -41,29 +47,29 @@ This application is using [React](https://reactjs.org/) for the frontend, [Netli
 
 3. Bootstrap your FaunaDB table
 
+    Create the fauna db instance
+
     ```bash
     netlify addons:create fauna
     ```
+
+    Claim your new fauna db instance
 
     ```bash
     netlify addons:auth fauna
     ```
 
-4. Run project locally
+    Automatically create your table in fauna. Alternatively you can create in fauna UI.
+
+    ```bash
+    npm run bootstrap
+    ```
+
+4. Run project locally & iterate on serverless functions
 
     ```bash
     npm start
     ```
-
-## TLDR; Quick Deploy
-
-1. [Sign up for free FaunaDB account](https://app.fauna.com/sign-up),
-2. Grab your [FaunaDB API key](https://dashboard.fauna.com/db/keys)
-3. Click the [Deploy to Netlify Button](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example)
-
-![setup steps](https://user-images.githubusercontent.com/532272/42069927-28e1c436-7b09-11e8-96e9-272987fc9e15.gif)
 
 ## Tutorial
 
@@ -241,13 +247,13 @@ Lets rock and roll.
     /* code from functions/todos-create.js */
     /* Import faunaDB sdk */
     const faunadb = require('faunadb')
-
+    
     /* configure faunaDB Client with our secret */
     const q = faunadb.query
     const client = new faunadb.Client({
       secret: process.env.FAUNADB_SERVER_SECRET
     })
-
+    
     /* export our lambda function as named "handler" export */
     exports.handler = async (event, context) => {
       /* parse the string body into a useable JS object */
@@ -329,12 +335,12 @@ So far we have created our `todo-create` function done and we've seen how we mak
     /* Import faunaDB sdk */
     const faunadb = require('faunadb')
     const getId = require('./utils/getId')
-
+    
     const q = faunadb.query
     const client = new faunadb.Client({
       secret: process.env.FAUNADB_SERVER_SECRET
     })
-
+    
     exports.handler = (event, context) => {
       const id = getId(event.path)
       console.log(`Function 'todo-read' invoked. Read id: ${id}`)
@@ -366,12 +372,12 @@ So far we have created our `todo-create` function done and we've seen how we mak
     /* code from functions/todos-read-all.js */
     /* Import faunaDB sdk */
     const faunadb = require('faunadb')
-
+    
     const q = faunadb.query
     const client = new faunadb.Client({
       secret: process.env.FAUNADB_SERVER_SECRET
     })
-
+    
     exports.handler = (event, context) => {
       console.log('Function `todo-read-all` invoked')
       return client.query(q.Paginate(q.Match(q.Ref('indexes/all_todos'))))
@@ -411,12 +417,12 @@ So far we have created our `todo-create` function done and we've seen how we mak
     /* code from functions/todos-update.js */
     const faunadb = require('faunadb')
     const getId = require('./utils/getId')
-
+    
     const q = faunadb.query
     const client = new faunadb.Client({
       secret: process.env.FAUNADB_SERVER_SECRET
     })
-
+    
     exports.handler = (event, context) => {
       const data = JSON.parse(event.body)
       const id = getId(event.path)
@@ -451,12 +457,12 @@ So far we have created our `todo-create` function done and we've seen how we mak
     /* Import faunaDB sdk */
     const faunadb = require('faunadb')
     const getId = require('./utils/getId')
-
+    
     const q = faunadb.query
     const client = new faunadb.Client({
       secret: process.env.FAUNADB_SERVER_SECRET
     })
-
+    
     exports.handler = async (event, context) => {
       const id = getId(event.path)
       console.log(`Function 'todo-delete' invoked. delete id: ${id}`)
@@ -490,12 +496,12 @@ So far we have created our `todo-create` function done and we've seen how we mak
     /* code from functions/todos-delete-batch.js */
     /* Import faunaDB sdk */
     const faunadb = require('faunadb')
-
+    
     const q = faunadb.query
     const client = new faunadb.Client({
       secret: process.env.FAUNADB_SERVER_SECRET
     })
-
+    
     exports.handler = async (event, context) => {
       const data = JSON.parse(event.body)
       console.log('data', data)
