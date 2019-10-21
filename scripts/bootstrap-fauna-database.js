@@ -1,5 +1,4 @@
 /* bootstrap database in your FaunaDB account */
-const readline = require('readline')
 const faunadb = require('faunadb')
 const chalk = require('chalk')
 const insideNetlify = insideNetlifyBuildContext()
@@ -10,41 +9,24 @@ console.log(chalk.cyan('Creating your FaunaDB Database...\n'))
 // 1. Check for required enviroment variables
 if (!process.env.FAUNADB_SERVER_SECRET) {
   console.log(chalk.yellow('Required FAUNADB_SERVER_SECRET enviroment variable not found.'))
+  console.log(`Make sure you have created your Fauna databse with "netlify addons:create fauna"`)
+  console.log(`Then run "npm run bootstrap" to setup your database schema`)
   if (insideNetlify) {
-    console.log(`Visit https://app.netlify.com/sites/YOUR_SITE_HERE/settings/deploys`)
-    console.log('and set a `FAUNADB_SERVER_SECRET` value in the "Build environment variables" section')
     process.exit(1)
-  }
-  // Local machine warning
-  if (!insideNetlify) {
-    console.log()
-    console.log('You can create fauna DB keys here: https://dashboard.fauna.com/db/keys')
-    console.log()
-    ask(chalk.bold('Enter your faunaDB server key'), (err, answer) => {
-      if (err) {
-        console.log('err', err)
-      }
-      if (!answer) {
-        console.log('Please supply a faunaDB server key')
-        process.exit(1)
-      }
-      createFaunaDB(process.env.FAUNADB_SERVER_SECRET).then(() => {
-        console.log('Database created')
-      })
-    })
   }
 }
 
 // Has var. Do the thing
 if (process.env.FAUNADB_SERVER_SECRET) {
   createFaunaDB(process.env.FAUNADB_SERVER_SECRET).then(() => {
-    console.log('Database created')
+    console.log('Fauna Database schema has been created')
+    console.log('Claim your fauna database with "netlify addons:auth fauna"')
   })
 }
 
 /* idempotent operation */
 function createFaunaDB(key) {
-  console.log('Create the database!')
+  console.log('Create the fauna database schema!')
   const client = new faunadb.Client({
     secret: key
   })
@@ -60,7 +42,8 @@ function createFaunaDB(key) {
     }).catch((e) => {
       // Database already exists
       if (e.requestResult.statusCode === 400 && e.message === 'instance not unique') {
-        console.log('DB already exists')
+        console.log('Fauna already setup! Good to go')
+        console.log('Claim your fauna database with "netlify addons:auth fauna"')
         throw e
       }
     })
@@ -74,16 +57,4 @@ function insideNetlifyBuildContext() {
     return true
   }
   return false
-}
-
-// Readline util
-function ask(question, callback) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  })
-  rl.question(question + '\n', function(answer) {
-    rl.close()
-    callback(null, answer)
-  })
 }
