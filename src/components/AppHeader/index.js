@@ -23,7 +23,7 @@ const AppHeader = (props) => {
           <a
             target='_blank'
             rel='noopener noreferrer'
-            href='https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example'>
+            href='https://app.netlify.com/start/deploy?repository=https://github.com/netlify/netlify-faunadb-example&stack=fauna'>
             <img src={deployButton} className='deploy-button' alt='deploy to netlify' />
           </a>
           <div className='view-src'>
