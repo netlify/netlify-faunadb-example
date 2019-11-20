@@ -62,19 +62,19 @@ Click the [Deploy to Netlify Button](https://app.netlify.com/start/deploy?reposi
 5. Create a database
 
     In the Fauna Cloud Console:
-Click “New Database”
-Enter “Netlify” as the “Database Name”
-Click “Save”
+    - Click “New Database”
+    - Enter “Netlify” as the “Database Name”
+    - Click “Save”
 
 6. Create a database access key
 
     In the Fauna Cloud Console:
-Click “Security” in the left navigation
-Click “New Key”
-Make sure that the “Database” field is set to “Netlify”
-Make sure that the “Role” field is set to “Admin”
-Enter “Netlify” as the “Key Name”
-Click “Save”
+    - Click “Security” in the left navigation
+    - Click “New Key”
+    - Make sure that the “Database” field is set to “Netlify”
+    - Make sure that the “Role” field is set to “Admin”
+    - Enter “Netlify” as the “Key Name”
+    - Click “Save”
 
 7. Copy the database access key’s secret
 
