@@ -243,7 +243,7 @@ Let's rock and roll.
 
     ```bash
     # make functions directory
-    mdkir functions
+    mkdir functions
     ```
 
 2. **Install `netlify-lambda`**
