@@ -96,10 +96,10 @@ Click the [Deploy to Netlify Button](https://app.netlify.com/start/deploy?reposi
     npm run bootstrap
     ```
 
-10. Run project locally
+10. Start developing!
 
     ```bash
-    npm start
+    netlify dev
     ```
 
 ## TLDR; Quick Deploy
